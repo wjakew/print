@@ -7,10 +7,12 @@ DROP TABLE IF EXISTS PRINTER_SNAP;
 DROP TABLE IF EXISTS PRINTER_ELEMENT;
 DROP TABLE IF EXISTS ELEMENT;
 DROP TABLE IF EXISTS PRINTER;
+DROP TABLE IF EXISTS JOB;
+DROP TABLE IF EXISTS PRINTER_JOB;
 DROP TABLE IF EXISTS APPLOG;
 -- creating database
 CREATE DATABASE IF NOT EXISTS printapp_database;
-USE klipapi_database;
+USE printapp_database;
 CREATE TABLE HEALTH
 (
     database_version VARCHAR(5),
@@ -25,7 +27,7 @@ CREATE TABLE APPLOG
 (
     applog_id INT PRIMARY KEY AUTO_INCREMENT,
     applog_time TIMESTAMP,
-    applog_code VARCHAR(10),
+    applog_code VARCHAR(100),
     applog_desc VARCHAR(300)
 );
 -- table for storing printer data

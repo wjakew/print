@@ -1,0 +1,7 @@
+$configuration file for nami app / nami service - print-181022REV1
+printapp_raw_database%localhost
+printapp_raw_database_user%admin
+printapp_raw_database_password%password
+printapp_raw_database_name%printapp_database
+
+$by Jakub Wawak 2022 / j.wawak@usp.pl / kubawawak@gmail.com

@@ -5,8 +5,129 @@
  */
 package usp.jakubwawak.ConsoleUI;
 
+import org.springframework.boot.SpringApplication;
+import usp.jakubwawak.Maintanance.PrintLog;
+import usp.jakubwawak.database.Database_Connector;
+import usp.jakubwawak.database.Database_Manager;
+import usp.jakubwawak.print.PrintApplication;
+
+import javax.xml.crypto.Data;
+import java.util.Scanner;
+
 /**
  * Object for maintaing menu options
  */
 public class ConsoleMenu {
+
+    Database_Connector database;
+    PrintLog log;
+    String build;
+
+    String [] args;
+    Scanner sc;
+    boolean flag_run;
+
+    /**
+     * Constructor
+     * @param database
+     * @param log
+     * @param build
+     */
+    public ConsoleMenu(Database_Connector database, PrintLog log,String build,String[] args){
+        this.database = database;
+        this.args = args;
+        this.log = log;
+        this.build = build;
+        flag_run = true;
+        sc = new Scanner(System.in);
+    }
+
+    /**
+     * Run menu - console menu
+     */
+    public void run(){
+        while(flag_run){
+            System.out.print(ConsoleColors.GREEN_BOLD_BRIGHT+"printapp>"+ConsoleColors.RESET);
+            String input = sc.nextLine();
+            int size = input.split(" ").length;
+            System.out.print(ConsoleColors.BLUE_BOLD_BRIGHT);
+            for(String word : input.split(" ")){
+                switch(word){
+                    case "start":
+                    {
+                        SpringApplication.run(PrintApplication.class, args);
+                        break;
+                    }
+                    case "exit":
+                    {
+                        log.add("EXIT","Service will exit");
+                        System.out.println("Bye!");
+                        log.dumpToFile();
+                        System.exit(0);
+                    }
+                    case "info":
+                    {
+                        System.out.println("build: "+build);
+                        System.out.println("by Jakub Wawak 2022");
+                        break;
+                    }
+                    case "printeradd":
+                    {
+                        printer_menu(input);
+                        break;
+                    }
+                }
+            }
+            System.out.print(ConsoleColors.RESET);
+        }
+    }
+
+    /**
+     * Function for creating printer functionality in the menu
+     * @param user_input
+     */
+    public void printer_menu(String user_input){
+        Database_Manager dm = new Database_Manager(database);
+        Scanner sc = new Scanner(System.in);
+        for(String word: user_input.split(" ")){
+            switch(word){
+                case "printeradd":
+                {
+                    System.out.print("printer_name: ");String printer_name = sc.nextLine();
+                    System.out.print("printer_ip: ");String printer_ip = sc.nextLine();
+                    System.out.print("printer_localization: ");String printer_localization = sc.nextLine();
+                    System.out.print("printer_model: ");String printer_model = sc.nextLine();
+                    System.out.print("status: (1-active,2-error,3-disabled):");
+                    try{
+                        int status = Integer.parseInt(sc.nextLine());
+                        String printer_status = "";
+                        switch(status){
+                            case 1:
+                                printer_status = "active";
+                                break;
+                            case 2:
+                                printer_status = "error";
+                                break;
+                            case 3:
+                                printer_status = "disabled";
+                                break;
+                            default:
+                                printer_status = "active";
+                                break;
+                        }
+                        int ans = dm.add_printer(printer_name,printer_ip,printer_localization,printer_model,printer_status);
+                        if( ans == 1 ){
+                            System.out.println("Added new printer!");
+                        }
+                        else{
+                            System.out.println("Failed to add printer. Check log data.");
+                        }
+                    }catch(Exception e){
+                        System.out.println("Wrong value");
+                    }
+                    break;
+                }
+            }
+        }
+    }
 }
