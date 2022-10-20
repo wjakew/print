@@ -2,17 +2,17 @@
 -- by Jakub Wawak
 -- kubawawak@gmail.com
 -- all rights reserved
+-- creating database
+CREATE DATABASE IF NOT EXISTS printapp_database;
+USE printapp_database;
 DROP TABLE IF EXISTS HEALTH;
 DROP TABLE IF EXISTS PRINTER_SNAP;
-DROP TABLE IF EXISTS PRINTER_ELEMENT;
+DROP TABLE IF EXISTS PRINTER_EVENT;
 DROP TABLE IF EXISTS ELEMENT;
 DROP TABLE IF EXISTS PRINTER;
 DROP TABLE IF EXISTS JOB;
 DROP TABLE IF EXISTS PRINTER_JOB;
 DROP TABLE IF EXISTS APPLOG;
--- creating database
-CREATE DATABASE IF NOT EXISTS printapp_database;
-USE printapp_database;
 CREATE TABLE HEALTH
 (
     database_version VARCHAR(5),
@@ -51,7 +51,7 @@ CREATE TABLE ELEMENT
     element_datatype VARCHAR(10)
 );
 -- table for storing printer elements data
-CREATE TABLE PRINTER_ELEMENT
+CREATE TABLE PRINTER_EVENT
 (
     printer_event_id INT PRIMARY KEY AUTO_INCREMENT,
     printer_id INT,

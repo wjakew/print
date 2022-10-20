@@ -21,7 +21,7 @@ public class PrintApplication {
 	public static int debug = 0;
 
 	public static String version = "v1.0.0";
-	public static String build = "print-181022REV1";
+	public static String build = "print-191022REV1";
 
 	public static Database_Connector database;
 
