@@ -7,6 +7,7 @@ package usp.jakubwawak.job_engine;
 
 
 import usp.jakubwawak.connector.SNMP_Connector;
+import usp.jakubwawak.database.Database_Job_Manager;
 import usp.jakubwawak.database.Database_Manager;
 import usp.jakubwawak.print.PrintApplication;
 
@@ -28,14 +29,17 @@ public class PrinterJob_Engine {
      * Constructor
      * @param printer_job_id
      */
-    public PrinterJob_Engine(int printer_job_id,int printer_id){
+    public PrinterJob_Engine(int printer_id,int printer_job_id){
         this.printer_job_id = printer_job_id;
         this.printer_id = printer_id;
         result = new ArrayList<>();
     }
 
     public PrinterJob_Engine(String printer_job_name,int printer_id){
-
+        Database_Job_Manager djm = new Database_Job_Manager(PrintApplication.database);
+        this.printer_job_id = djm.get_print_job_id(printer_job_name);
+        this.printer_id = printer_id;
+        result = new ArrayList<>();
     }
 
     /**
@@ -43,7 +47,7 @@ public class PrinterJob_Engine {
      */
     public void run(){
         printerjob_obj = new PrinterJob(printer_job_id);
-        if (printerjob_obj.error){
+        if (!printerjob_obj.error){
             // no error on the object
             try{
                 // load printer ip
@@ -70,6 +74,28 @@ public class PrinterJob_Engine {
             PrintApplication.database.nl.add("PRINTERJOB-ERROR"
                     ,"Failed to run print job!");
         }
+    }
+
+    /**
+     * Function for getting result data
+     * @return ArrayList
+     */
+    public ArrayList<Float> get_float_result(){
+        ArrayList<Float> result_int = new ArrayList<>();
+        try{
+            for(String data : result){
+                if ( data.equals("noSuchInstance") || data.equals("Null")){
+                    result_int.add(-69f);
+                }
+                else{
+                    result_int.add(Float.parseFloat(data));
+                }
+
+            }
+        }catch(Exception e){
+            result_int.add(-69f);
+        }
+        return result_int;
     }
 
     /**

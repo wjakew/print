@@ -5,6 +5,8 @@
  */
 package usp.jakubwawak.print;
 
+import com.vaadin.flow.component.page.AppShellConfigurator;
+import com.vaadin.flow.server.PWA;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import usp.jakubwawak.ConsoleUI.ConsoleColors;
@@ -14,14 +16,16 @@ import usp.jakubwawak.Maintanance.PrintLog;
 import usp.jakubwawak.database.Database_Connector;
 
 import java.io.Console;
+import java.io.IOException;
 import java.io.ObjectInputFilter;
 
 @SpringBootApplication
-public class PrintApplication {
+@PWA(name = "PrinT", shortName = "PT")
+public class PrintApplication implements AppShellConfigurator {
 	public static int debug = 0;
 
 	public static String version = "v1.0.0";
-	public static String build = "print-191022REV1";
+	public static String build = "print-201022REV1";
 
 	public static Database_Connector database;
 
@@ -48,7 +52,7 @@ public class PrintApplication {
 				cs.load_config();
 				cs.show_config();
 				run(args);
-			}catch(Exception e){
+			}catch(IOException e){
 				log.add("FATAL-ERROR","Fatal error: "+e.toString()+")");
 			}
 
@@ -71,7 +75,7 @@ public class PrintApplication {
 				Test test = new Test();
 				try {
 					test.run();
-				}catch(Exception e){
+				}catch(IOException e){
 					System.out.println("Tests failed ("+e.toString()+")");
 				}
 			}

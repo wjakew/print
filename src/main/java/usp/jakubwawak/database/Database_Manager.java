@@ -57,6 +57,26 @@ public class Database_Manager {
     }
 
     /**
+     * Function for getting all printer ids from database
+     * @return ArrayList
+     */
+    public ArrayList<Integer> get_printer_ids(){
+        ArrayList<Integer> data = new ArrayList<>();
+        String query = "SELECT printer_id FROM PRINTER;";
+        try{
+            PreparedStatement ppst = database.con.prepareStatement(query);
+            ResultSet rs = ppst.executeQuery();
+            while(rs.next()){
+                data.add(rs.getInt("printer_id"));
+            }
+            database.nl.add("PRINTERID-LIST","Loaded "+data.size()+" printer_ids.");
+        }catch(SQLException e){
+            database.nl.add("PRINTERID-LIST-FAILED","Failed to get printer list ("+e.toString()+")");
+        }
+        return data;
+    }
+
+    /**
      * Function for getting printer ip data
      * @param printer_id
      * @return String
@@ -84,7 +104,7 @@ public class Database_Manager {
      * @return String
      */
     public String get_element_oid(int element_id){
-        String query = "SELECT element_oid FROM ELEMENT WHERE element_id = element_id;";
+        String query = "SELECT element_oid FROM ELEMENT WHERE element_id = ?;";
         try{
             PreparedStatement ppst = database.con.prepareStatement(query);
             ppst.setInt(1,element_id);

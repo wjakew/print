@@ -12,6 +12,8 @@ import usp.jakubwawak.database.Database_Job_Manager;
 import usp.jakubwawak.database.Database_Manager;
 import usp.jakubwawak.job_engine.PrinterJob_Engine;
 import usp.jakubwawak.print.PrintApplication;
+import usp.jakubwawak.scenaio.UpdateTonerData_Scenario;
+
 import java.util.Scanner;
 
 /**
@@ -84,6 +86,14 @@ public class ConsoleMenu {
                     case "job":
                     {
                         job_menu(input);
+                        break;
+                    }
+                    case "updatetoner":
+                    {
+                        System.out.println("Toner update start");
+                        UpdateTonerData_Scenario utds = new UpdateTonerData_Scenario();
+                        utds.run_scenario();
+                        System.out.println("Toner update finish");
                         break;
                     }
                 }

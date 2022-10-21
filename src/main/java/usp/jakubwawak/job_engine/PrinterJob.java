@@ -59,4 +59,15 @@ public class PrinterJob {
             error = true;
         }
     }
+
+    /**
+     * Function for showing job data
+     */
+    public void show_job(){
+        System.out.println("printer_job_id: "+printer_job_id);
+        System.out.println("printer_job_name: "+printer_job_name);
+        for(int element: element_id_list){
+            System.out.println("element_id: "+element);
+        }
+    }
 }

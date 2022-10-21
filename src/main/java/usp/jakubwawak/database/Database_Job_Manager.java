@@ -52,13 +52,13 @@ public class Database_Job_Manager {
      * @return Integer
      */
     public int get_print_job_id(String print_job_name){
-        String query = "SELECT printer_id from PRINTER WHERE printer_name = ?;";
+        String query = "SELECT printer_job_id FROM PRINTER_JOB WHERE printer_job_name=?;";
         try{
             PreparedStatement ppst = database.con.prepareStatement(query);
             ppst.setString(1,print_job_name);
             ResultSet rs = ppst.executeQuery(query);
             if ( rs.next() ){
-                return rs.getInt("printer_id");
+                return rs.getInt("printer_job_id");
             }
             return -1;
         }catch(SQLException e){
