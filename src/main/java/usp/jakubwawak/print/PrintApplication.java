@@ -7,8 +7,10 @@ package usp.jakubwawak.print;
 
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.server.PWA;
+import com.vaadin.flow.spring.annotation.EnableVaadin;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
 import usp.jakubwawak.ConsoleUI.ConsoleColors;
 import usp.jakubwawak.ConsoleUI.ConsoleMenu;
 import usp.jakubwawak.Maintanance.Configuration_Service;
@@ -19,13 +21,15 @@ import java.io.Console;
 import java.io.IOException;
 import java.io.ObjectInputFilter;
 
-@SpringBootApplication
-@PWA(name = "PrinT", shortName = "PT")
+@Configuration
+@SpringBootApplication(scanBasePackages = {"com.jakubwawak.endpoints"})
+@PWA(name = "PrinT", shortName = "PT", offlineResources = {})
+@EnableVaadin()
 public class PrintApplication implements AppShellConfigurator {
 	public static int debug = 0;
 
 	public static String version = "v1.0.0";
-	public static String build = "print-201022REV1";
+	public static String build = "print-211022REV1";
 
 	public static Database_Connector database;
 

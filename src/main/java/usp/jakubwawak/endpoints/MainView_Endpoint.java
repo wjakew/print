@@ -21,9 +21,8 @@ import java.util.ArrayList;
  * MainView / main page
  */
 
-@Route(value = "")
 @PageTitle("Toner Statistics")
-@PermitAll
+@Route(value = "")
 public class MainView_Endpoint extends VerticalLayout {
 
     Grid<Printer_View> grid;
