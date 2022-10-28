@@ -27,6 +27,7 @@ public class TonerPrinter_View {
         list_view = new ArrayList<>();
     }
 
+
     /**
      * Function for loading view data
      */
