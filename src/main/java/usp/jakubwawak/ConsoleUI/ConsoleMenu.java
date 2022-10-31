@@ -55,11 +55,6 @@ public class ConsoleMenu {
             System.out.print(ConsoleColors.BLUE_BOLD_BRIGHT);
             for(String word : input.split(" ")){
                 switch(word){
-                    case "start":
-                    {
-                        SpringApplication.run(PrintApplication.class, args);
-                        break;
-                    }
                     case "exit":
                     {
                         log.add("EXIT","Service will exit");

@@ -5,9 +5,12 @@
  */
 package usp.jakubwawak.print;
 
+import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.spring.annotation.EnableVaadin;
+import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.Lumo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,14 +27,15 @@ import java.io.Console;
 import java.io.IOException;
 import java.io.ObjectInputFilter;
 
-@SpringBootApplication(scanBasePackages = "usp.jakubwawak.endpoints")
+@SpringBootApplication(scanBasePackages = "usp.jakubwawak")
 @PWA(name = "PrinT", shortName = "PT", offlineResources = {})
-@EnableVaadin("PrintApplication")
+@NpmPackage(value = "line-awesome", version = "1.3.0")
+@EnableVaadin({"usp.jakubwawak"})
 public class PrintApplication implements AppShellConfigurator {
 	public static int debug = 0;
 
 	public static String version = "v1.0.0";
-	public static String build = "print-281022REV1";
+	public static String build = "print-311022REV1RC";
 
 	public static Database_Connector database;
 
@@ -87,6 +91,7 @@ public class PrintApplication implements AppShellConfigurator {
 			}
 			else{
 				//runing app without tests
+				SpringApplication.run(PrintApplication.class, args);
 				ConsoleMenu cm = new ConsoleMenu(database,log,build,args);
 				cm.run();
 			}
