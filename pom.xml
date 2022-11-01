@@ -23,7 +23,7 @@
 
 	<properties>
 		<java.version>11</java.version>
-		<vaadin.version>23.2.4</vaadin.version>
+		<vaadin.version>23.2.6</vaadin.version>
 	</properties>
 
 	<dependencies>
@@ -73,7 +73,7 @@
 			<dependency>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-bom</artifactId>
-				<version>23.0.0</version>
+				<version>23.2.6</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>

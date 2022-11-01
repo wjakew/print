@@ -1,0 +1,48 @@
+CONFIG-FILE-FOUND: Found configuration file: C:\googledrive\src\Zlecenia\print application\print\config_new.nami
+DATABASE-LOG-ADD-FAILED: Failed to add log to database (java.lang.NullPointerException: Cannot read field "con" because "usp.jakubwawak.print.PrintApplication.database" is null)
+CONFIG-LOADED: Configuration file loaded
+DATABASE-LOG-ADD-FAILED: Failed to add log to database (java.lang.NullPointerException: Cannot read field "con" because "usp.jakubwawak.print.PrintApplication.database" is null)
+DATABASE-CONNECTOR: Trying to connect to database with user: admin
+DATABASE-LOG-ADD-FAILED: Failed to add log to database (java.lang.NullPointerException: Cannot invoke "java.sql.Connection.prepareStatement(String)" because "usp.jakubwawak.print.PrintApplication.database.con" is null)
+CONNECTION: Connected succesfully
+CONNECTION: jdbc:mysql://localhost/printapp_database?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&use...*END*
+DEBUG-FLAG: Debug flag set to: 1
+TPVIEW: Loading printer/toner view...
+PRINTERID-LIST: Loaded 17 printer_ids.
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL34
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:16
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL43
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:16
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL63
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:16
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL68
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:17
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL70
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:17
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL72
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:17
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL74
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:17
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL75
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:17
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL76
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:18
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL77
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:18
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL78
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:18
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL83
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:18
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL79
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:18
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL81
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:18
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL84
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:19
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL85
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:19
+VIEW-DETAILS: Loaded details for printer PRN_WROXEL87
+LASTTONER: Loaded last toner entry from 2022-10-31T14:40:19
+TPVIEW: Loaded 17 elements
+EXIT: Service will exit
+DUMP-EXIT: Saving to file!

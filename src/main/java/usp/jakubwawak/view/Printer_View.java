@@ -24,6 +24,8 @@ public class Printer_View {
     public String printer_model;
     public String printer_ip;
 
+    public String printer_localization;
+
     LocalDateTime last_update;
 
     public float last_cyan_data, last_magenta_data, last_yellow_data, last_black_data;
@@ -59,28 +61,37 @@ public class Printer_View {
         if ( last_cyan_data == -69f){
             return "X";
         }
-        return Float.toString(last_cyan_data);
+        return Integer.toString((int) last_cyan_data) +"%";
+    }
+
+    public String getLocalization(){
+        if ( printer_localization == null || printer_localization.equals("")){
+            return "brak";
+        }
+        else{
+            return printer_localization;
+        }
     }
 
     public String getMagenta(){
         if ( last_magenta_data == -69f){
             return "X";
         }
-        return Float.toString(last_magenta_data);
+        return Integer.toString((int) last_magenta_data) +"%";
     }
 
     public String getYellow(){
         if ( last_yellow_data == -69f){
             return "X";
         }
-        return Float.toString(last_yellow_data);
+        return Integer.toString((int) last_yellow_data) +"%";
     }
 
     public String getBlack(){
         if ( last_black_data == -69f){
             return "X";
         }
-        return Float.toString(last_black_data);
+        return Integer.toString((int) last_black_data) +"%";
     }
 
     /**
@@ -96,6 +107,7 @@ public class Printer_View {
                 printer_name = rs.getString("printer_name");
                 printer_model = rs.getString("printer_model");
                 printer_ip = rs.getString("printer_ip");
+                printer_localization = rs.getString("printer_localization");
                 PrintApplication.database.nl.add("VIEW-DETAILS","Loaded details for printer "+printer_name);
             } else {
                 printer_name = "empty";
