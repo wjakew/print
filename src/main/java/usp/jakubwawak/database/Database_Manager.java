@@ -121,6 +121,27 @@ public class Database_Manager {
     }
 
     /**
+     * Function for updating printer localization on database
+     * @param localization
+     * @param printer_name
+     * @return Integer
+     */
+    public int update_printer_localization(String localization,String printer_name){
+        String query = "UPDATE PRINTER SET printer_localization = ? WHERE printer_name = ?;";
+        try{
+            PreparedStatement ppst = database.con.prepareStatement(query);
+            ppst.setString(1,localization);
+            ppst.setString(2,printer_name);
+            ppst.execute();
+            database.nl.add("LOCALIZATION-UPDATE","Updated localization for ("+printer_name+") to "+localization);
+            return 1;
+        }catch(SQLException e){
+            database.nl.add("LOCALIZATION-UPDATE-FAILED","Failed to update localization ("+e.toString()+")");
+            return -1;
+        }
+    }
+
+    /**
      * Function for adding element data to database
      * @param element_name
      * @param element_details
@@ -162,6 +183,26 @@ public class Database_Manager {
             }
         }catch(SQLException e){
             database.nl.add("ELEMENT-LIST-FAILED","Failed to list elements ("+e.toString()+")");
+        }
+        return data;
+    }
+
+    /**
+     * Function for listing printers
+     * @return ArrayList
+     */
+    public ArrayList<String> list_printers(){
+        ArrayList<String> data = new ArrayList<>();
+        String query = "SELECT * FROM PRINTER;";
+        try{
+            PreparedStatement ppst = database.con.prepareStatement(query);
+            ResultSet rs = ppst.executeQuery();
+            while(rs.next()){
+                data.add(rs.getString("printer_name"));
+            }
+
+        }catch(SQLException e){
+            database.nl.add("PRINTER-LIST-FAILED","Failed to list printers ("+e.toString()+")");
         }
         return data;
     }

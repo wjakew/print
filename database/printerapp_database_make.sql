@@ -19,10 +19,11 @@ CREATE TABLE HEALTH
     database_version VARCHAR(5),
     printapp_status INT,
     printapp_admin_password VARCHAR(200),
-    printapp_debug_flag INT
+    printapp_debug_flag INT,
+    printapp_instance_name VARCHAR(200)
 );
-INSERT INTO HEALTH (database_version,printapp_status,printapp_admin_password,printapp_debug_flag)
-VALUES ("100",1,"21232f297a57a5a743894a0e4a801fc3",1);
+INSERT INTO HEALTH (database_version,printapp_status,printapp_admin_password,printapp_debug_flag,printapp_instance_name)
+VALUES ("100",1,"21232f297a57a5a743894a0e4a801fc3",1,"Instance name");
 -- table for storing applogs
 CREATE TABLE APPLOG
 (

@@ -60,6 +60,26 @@ public class Database_Connector {
     }
 
     /**
+     * Function for loading instance name
+     * @return String
+     */
+    public String get_instance_name(){
+        String query = "SELECT printapp_instance_name from HEALTH;";
+        try{
+            PreparedStatement ppst = con.prepareStatement(query);
+            ResultSet rs = ppst.executeQuery();
+
+            if ( rs.next() ){
+                return rs.getString("printapp_instance_name");
+            }
+            return "";
+        }catch(SQLException e){
+            nl.add("INSTANCE-NAME-GET","Failed to get instance name ("+e.toString()+")");
+            return "";
+        }
+    }
+
+    /**
      * Function for getting debug data from database
      * @return Integer
      */

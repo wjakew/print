@@ -34,8 +34,8 @@ import java.io.ObjectInputFilter;
 public class PrintApplication implements AppShellConfigurator {
 	public static int debug = 0;
 
-	public static String version = "v1.0.0";
-	public static String build = "print-011122RC";
+	public static String version = "v1.0.1";
+	public static String build = "print-051122RC";
 
 	public static Database_Connector database;
 
@@ -65,7 +65,6 @@ public class PrintApplication implements AppShellConfigurator {
 			}catch(IOException e){
 				log.add("FATAL-ERROR","Fatal error: "+e.toString()+")");
 			}
-
 		}
 
 	}
