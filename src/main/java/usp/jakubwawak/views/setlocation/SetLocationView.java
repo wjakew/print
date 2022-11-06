@@ -52,9 +52,7 @@ public class SetLocationView extends VerticalLayout {
         comboBox.setAllowCustomValue(false);
 
         ArrayList<String> printer_list = dm.list_printers();
-        comboBox.addCustomValueSetListener(e -> {
-            comboBox.setItems(printer_list);
-        });
+        comboBox.setItems(printer_list);
 
         add(comboBox);
         add(localization_field);

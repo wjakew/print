@@ -80,6 +80,25 @@ public class Database_Connector {
     }
 
     /**
+     * Function for updating instance name
+     * @param instance_name
+     * @return Integer
+     */
+    public int update_instance_name(String instance_name){
+        String query = "UPDATE HEALTH SET printapp_instance_name = ?;";
+        try{
+            PreparedStatement ppst = con.prepareStatement(query);
+            ppst.setString(1,instance_name);
+            ppst.execute();
+            nl.add("INSTANCE-UPDATE","Updated instance to ("+instance_name+")");
+            return 1;
+        }catch(SQLException e){
+            nl.add("INSTANCE-UPDATE-FAILED","Failed to update instance ("+e.toString()+")");
+            return -1;
+        }
+    }
+
+    /**
      * Function for getting debug data from database
      * @return Integer
      */

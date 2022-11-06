@@ -1,12 +1,20 @@
 # Dokumentacja
 
 Created: October 21, 2022 3:35 PM
-Last Edited Time: November 3, 2022 8:06 PM
+Last Edited Time: November 5, 2022 8:36 PM
 Status: Completed 🏁
 Type: Documentation
 
-> current build: [print-011122RC](https://github.com/wjakew/print/commit/308fff0b8358193e3e32907f8c0ddf9233d4c4ef)
+> current build: `print-051122RC`
 >
+
+# Changelog:
+
+`print-051122RC`
+
+- Zmiana layoutu UI na webie.
+- Dodanie funkcjonalności ustawiania lokalizacji drukarek na bazie danych.
+- Możliwość ustawienia nazwy instancji strony.
 
 Modele drukarek na których została przetestowana aplikacja:
 
@@ -236,18 +244,19 @@ try{
 Główne funkcje administracyjne realizowane są przez terminal. Podstawowe komendy:
 
 - job
-    - job add job_name *dodanie workera na update konkretnego elementu konfiguracji*
-    - job runp print_job_name printer_id *uruchomienie konrketnego workera dla danej drukarki po printer_id*
+  - job add job_name *dodanie workera na update konkretnego elementu konfiguracji*
+  - job runp print_job_name printer_id *uruchomienie konrketnego workera dla danej drukarki po printer_id*
 - elementadd *dodanie elementu eksploatacyjnego*
 - updatetoner *aktualizacja danych tonerów*
 - printeradd *dodanie nowej drukarki*
 - help *wyświetlenie pomocy*
+- instance *aktualizacja nazwy instancji wyświetlanej na głównej stronie*
 - info *wyświetlanie informacji dotyczących aplikacji*
 - exit *wyjście z aplikacji*
 
 # UI Użytkownika.
 
-Aplikacja umożliwia aktualizacje stanu tonerów przez użytkownika a także dodanie nowej drukarki.
+Aplikacja umożliwia aktualizacje stanu tonerów przez użytkownika a także dodanie nowej drukarki. Z poziomu strony można dodać dane lokalizacyjne każdego urządzenia które następnie ustawią się na widoku głównym.
 
 # Deploy aplikacji na środowisku produkcyjnym.
 
@@ -262,7 +271,8 @@ Aplikacja umożliwia aktualizacje stanu tonerów przez użytkownika a także dod
 2. Instalacja Java JRE11.
 3. Uruchomienie skryptu na bazie danych **printapp_database_make.sql**
 4. Uruchomienie skryptu na bazie danych **server_configuration.sql**
-5. Uruchomienie aplikacji
+5. Wypakowanie print.zip do lokalizacji uruchomieniowej
+6. Uruchomienie aplikacji
 
 ```jsx
 java -jar printer-1.0.0.jar

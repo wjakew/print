@@ -35,7 +35,7 @@ public class PrintApplication implements AppShellConfigurator {
 	public static int debug = 0;
 
 	public static String version = "v1.0.1";
-	public static String build = "print-051122RC";
+	public static String build = "print-051122RC3";
 
 	public static Database_Connector database;
 

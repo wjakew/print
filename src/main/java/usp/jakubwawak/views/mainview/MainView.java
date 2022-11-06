@@ -14,6 +14,7 @@ import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -85,6 +86,8 @@ public class MainView extends VerticalLayout {
         add(hl);
         add(grid);
 
+        add(new H6("By Jakub Wawak 2022 / kubawawak@gmail.com / j.wawak@usp.pl"));
+
         setSizeFull();
         setJustifyContentMode(JustifyContentMode.CENTER);
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
@@ -124,6 +127,7 @@ public class MainView extends VerticalLayout {
         tpv.load_view();
         grid.getDataProvider().refreshAll();
         update_time_label.setText("Last update: "+tpv.list_view.get(0).getLastUpdate());
+        Notification noti_updatetoner = Notification.show("Toner data updated!");
         update_button.setText("Update");
     }
 }

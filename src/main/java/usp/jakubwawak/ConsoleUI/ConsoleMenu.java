@@ -83,6 +83,19 @@ public class ConsoleMenu {
                         job_menu(input);
                         break;
                     }
+                    case "instance":
+                    {
+                        Scanner sc = new Scanner(System.in);
+                        System.out.print("New instance name:");
+                        String instance_name = sc.nextLine();
+                        if ( !instance_name.equals("") ){
+                            database.update_instance_name(instance_name);
+                        }
+                        else{
+                            System.out.println("Blank");
+                        }
+                        break;
+                    }
                     case "updatetoner":
                     {
                         System.out.println("Toner update start");
