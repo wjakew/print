@@ -99,6 +99,50 @@ public class Database_Manager {
     }
 
     /**
+     * Function for getting printer ip data
+     * @param printer_id
+     * @return String
+     */
+    public int get_printer_id(String printer_name){
+        String query = "SELECT printer_id from PRINTER WHERE printer_name = ?;";
+        try{
+            PreparedStatement ppst = database.con.prepareStatement(query);
+            ppst.setString(1,printer_name);
+            ResultSet rs = ppst.executeQuery();
+            if ( rs.next() ){
+                return rs.getInt("printer_id");
+            }
+            return -1;
+        }catch(SQLException e){
+            database.nl.add("PRINTERIP-FAILED",
+                    "Failed to get printer ip ("+e.toString()+")");
+            return -1;
+        }
+    }
+
+    /**
+     * Function for getting printer name
+     * @param printer_id
+     * @return
+     */
+    public String get_printer_name(int printer_id){
+        String query = "SELECT printer_ip from PRINTER WHERE printer_id = ?;";
+        try{
+            PreparedStatement ppst = database.con.prepareStatement(query);
+            ppst.setInt(1,printer_id);
+            ResultSet rs = ppst.executeQuery();
+            if ( rs.next() ){
+                return rs.getString("printer_name");
+            }
+            return null;
+        }catch(SQLException e){
+            database.nl.add("PRINTERNAME-FAILED",
+                    "Failed to get printer ip ("+e.toString()+")");
+            return null;
+        }
+    }
+
+    /**
      * Function for getting oid information from database
      * @param element_id
      * @return String

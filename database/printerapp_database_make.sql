@@ -10,6 +10,8 @@ DROP TABLE IF EXISTS PRINTER_SNAP;
 DROP TABLE IF EXISTS PRINTER_EVENT;
 DROP TABLE IF EXISTS ELEMENT;
 DROP TABLE IF EXISTS TONER_DATA;
+DROP TABLE IF EXISTS WAREHOUSE_ELEMENT_TEMPLATE;
+DROP TABLE IF EXISTS WAREHOUSE_ELEMENT;
 DROP TABLE IF EXISTS PRINTER;
 DROP TABLE IF EXISTS JOB;
 DROP TABLE IF EXISTS PRINTER_JOB;
@@ -71,6 +73,32 @@ CREATE TABLE PRINTER_EVENT
     CONSTRAINT fk_printer_2 FOREIGN KEY(element_id) REFERENCES ELEMENT(element_id)
 );
 
+-- table for storing warehouse element type
+CREATE TABLE WAREHOUSE_ELEMENT_TEMPLATE
+(
+    warehouse_element_template_id INT PRIMARY KEY AUTO_INCREMENT,
+    warehouse_element_template_name VARCHAR(100),
+    warehouse_element_template_category VARCHAR(100)
+);
+INSERT INTO WAREHOUSE_ELEMENT_TEMPLATE ( warehouse_element_template_name,warehouse_element_template_category )
+VALUES("CYAN TONER","TONER");
+INSERT INTO WAREHOUSE_ELEMENT_TEMPLATE ( warehouse_element_template_name,warehouse_element_template_category )
+VALUES("MAGENTA TONER","TONER");
+INSERT INTO WAREHOUSE_ELEMENT_TEMPLATE ( warehouse_element_template_name,warehouse_element_template_category )
+VALUES("YELLOW TONER","TONER");
+INSERT INTO WAREHOUSE_ELEMENT_TEMPLATE ( warehouse_element_template_name,warehouse_element_template_category )
+VALUES("BLACK TONER","TONER");
+-- table for storing warehouse element
+CREATE TABLE WAREHOUSE_ELEMENT
+(
+    warehouse_element_id INT PRIMARY KEY AUTO_INCREMENT,
+    printer_id INT,
+    warehouse_element_name VARCHAR(100),
+    warehouse_element_time TIMESTAMP,
+    warehouse_element_category VARCHAR(100),
+
+    CONSTRAINT fk_warehouse_1 FOREIGN KEY(printer_id) REFERENCES PRINTER(printer_id)
+);
 -- table for storing toner printer data
 CREATE TABLE TONER_DATA
 (

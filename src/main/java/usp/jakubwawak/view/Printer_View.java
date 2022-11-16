@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  * Function for creating printer view
@@ -29,6 +30,7 @@ public class Printer_View {
     LocalDateTime last_update;
 
     public float last_cyan_data, last_magenta_data, last_yellow_data, last_black_data;
+    public int cyan_toner_status,magenta_toner_status,yellow_toner_status,black_toner_status;
 
     /**
      * Constructor
@@ -37,8 +39,29 @@ public class Printer_View {
      */
     public Printer_View(int printer_id) {
         this.printer_id = printer_id;
+        last_cyan_data = 0; last_magenta_data = 0; last_yellow_data = 0; last_black_data = 0;
         load_printer_details();
         load_last_toner_data();
+    }
+
+    public String get_warehouse_status(){
+        String toner_data = "";
+        if ( cyan_toner_status == 1 ){
+            toner_data = toner_data + "CYAN ";
+        }
+        if ( magenta_toner_status == 1){
+            toner_data = toner_data + "MAGENTA ";
+        }
+        if ( yellow_toner_status == 1){
+            toner_data = toner_data + "YELLOW ";
+        }
+        if ( black_toner_status == 1){
+            toner_data = toner_data + "BLACK ";
+        }
+        if (toner_data.equals("")){
+            toner_data = "EMPTY";
+        }
+        return toner_data;
     }
 
     public int getID(){
@@ -92,6 +115,33 @@ public class Printer_View {
             return "X";
         }
         return Integer.toString((int) last_black_data) +"%";
+    }
+
+    public void load_warehouse_data(){
+        String query = "SELECT * FROM WAREHOUSE_ELEMENT WHERE printer_id = ?;";
+        try{
+            PreparedStatement ppst = PrintApplication.database.con.prepareStatement(query);
+            ppst.setInt(1,printer_id);
+            ResultSet rs = ppst.executeQuery();
+            while(rs.next()){
+                switch(rs.getString("warehouse_element_name")){
+                    case "CYAN TONER":
+                        cyan_toner_status = 1;
+                        break;
+                    case "MAGENTA TONER":
+                        magenta_toner_status = 1;
+                        break;
+                    case "YELLOW TONER":
+                        yellow_toner_status = 1;
+                        break;
+                    case "BLACK TONER":
+                        black_toner_status = 1;
+                        break;
+                }
+            }
+        }catch(SQLException e){
+            PrintApplication.database.nl.add("PRINTER-WAREHOUSE-FAILED","Failed to add elements from warehouse to printer data("+e.toString());
+        }
     }
 
     /**

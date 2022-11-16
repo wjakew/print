@@ -6,6 +6,7 @@
 package usp.jakubwawak.views.mainview;
 
 import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
@@ -45,6 +46,8 @@ public class MainView extends VerticalLayout {
     Button setlocation_button;
     Button setinstancename_button;
 
+    Button warehouse_button;
+
     H3 update_time_label;
     /**
      * Constructor
@@ -53,9 +56,10 @@ public class MainView extends VerticalLayout {
         setSpacing(false);
         this.getElement().setAttribute("theme", Lumo.DARK);
         tpv = new TonerPrinter_View(PrintApplication.database);
-        update_button = new Button("Update", this::update);
-        addprinter_button = new Button("Add printer",this::addprinter);
-        setlocation_button = new Button("Update location",this::setlocation);
+        update_button = new Button(VaadinIcon.DOWNLOAD.create(), this::update);
+        addprinter_button = new Button(VaadinIcon.PLUS_CIRCLE.create(),this::addprinter);
+        setlocation_button = new Button(VaadinIcon.LOCATION_ARROW.create(),this::setlocation);
+        warehouse_button = new Button(VaadinIcon.BUILDING.create(),this::warehouseaction);
         setinstancename_button = new Button("Set instance name");
 
         tpv.load_view();
@@ -76,14 +80,15 @@ public class MainView extends VerticalLayout {
         hl.add(addprinter_button);
         hl.add(update_button);
         hl.add(setlocation_button);
+        hl.add(warehouse_button);
 
         ArrayList<Printer_View> view = tpv.list_view;
         grid.setItems(view);
         Icon vaadinIcon = new Icon(VaadinIcon.PRINT);
         add(vaadinIcon);
         add(new H6(PrintApplication.version+"/"+PrintApplication.build+"/"+PrintApplication.database.get_instance_name()));
-        add(update_time_label);
         add(hl);
+        add(update_time_label);
         add(grid);
 
         add(new H6("By Jakub Wawak 2022 / kubawawak@gmail.com / j.wawak@usp.pl"));
@@ -112,6 +117,11 @@ public class MainView extends VerticalLayout {
                 ui -> ui.navigate("setlocation"));
     }
 
+    private void warehouseaction(ClickEvent e){
+        warehouse_button.getUI().ifPresent(
+                ui -> ui.navigate("warehouse"));
+    }
+
 
     /**
      * Function for performing update
@@ -129,5 +139,6 @@ public class MainView extends VerticalLayout {
         update_time_label.setText("Last update: "+tpv.list_view.get(0).getLastUpdate());
         Notification noti_updatetoner = Notification.show("Toner data updated!");
         update_button.setText("Update");
+        UI.getCurrent().getPage().reload();
     }
 }
