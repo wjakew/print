@@ -44,6 +44,10 @@ public class Printer_View {
         load_last_toner_data();
     }
 
+    /**
+     * Function for loading supply data on warehouse
+     * @return String
+     */
     public String get_warehouse_status(){
         String toner_data = "";
         if ( cyan_toner_status == 1 ){
@@ -60,6 +64,30 @@ public class Printer_View {
         }
         if (toner_data.equals("")){
             toner_data = "EMPTY";
+        }
+        return toner_data;
+    }
+
+    /**
+     * Function for loading empty data on warehouse
+     * @return String
+     */
+    public String get_warehouse_supplay_empty(){
+        String toner_data = "";
+        if ( cyan_toner_status == 0 ){
+            toner_data = toner_data + "CYAN ";
+        }
+        if ( magenta_toner_status == 0){
+            toner_data = toner_data + "MAGENTA ";
+        }
+        if ( yellow_toner_status == 0){
+            toner_data = toner_data + "YELLOW ";
+        }
+        if ( black_toner_status == 0){
+            toner_data = toner_data + "BLACK ";
+        }
+        if (toner_data.equals("")){
+            toner_data = "";
         }
         return toner_data;
     }

@@ -1,20 +1,30 @@
-# Dokumentacja
+# PrinterApp - Dokumentacja
 
 Created: October 21, 2022 3:35 PM
-Last Edited Time: November 5, 2022 8:36 PM
+Last Edited Time: November 17, 2022 9:47 AM
 Status: Completed 🏁
 Type: Documentation
 
-> current build: `print-051122RC`
+> current build:`print-171122RC3`
 >
 
 # Changelog:
+
+`print-171122RC3`
+
+- BUGFIX Automatyczny reload strony po aktualizacji statusów drukarek.
+- Zmiana layoutów przycisków funkcyjnych.
+- Dodanie funkcjonalności magazynu.
+- Dodanie ostrzerzeń o brakujących tonerach w magazynie.
+- Dodanie funkcjonalności PWA (Progressive Web Apps)
 
 `print-051122RC`
 
 - Zmiana layoutu UI na webie.
 - Dodanie funkcjonalności ustawiania lokalizacji drukarek na bazie danych.
 - Możliwość ustawienia nazwy instancji strony.
+
+# Przeprowadzone testy integracyjne.
 
 Modele drukarek na których została przetestowana aplikacja:
 
@@ -41,7 +51,7 @@ Za system przechowywania informacji pobranych od drukarek a także danych konfig
 
 # Architektura rozwiązania.
 
-![Untitled](Dokumentacja%20a1bb5514d99f417bb8e3bb338b5919c0/Untitled.png)
+![Untitled](PrinterApp%20-%20Dokumentacja%20a1bb5514d99f417bb8e3bb338b5919c0/Untitled.png)
 
 Użytkownik obsługujący aplikacje poprzez stronę internetową ma dostęp jedynie do endpointu umożliwiającego wyświetlanie treści przygotowanej wcześniej przez objekt TonerPrinter_View. Dostęp do infrastruktury drukarek i możliwość pobierania z nich danych jest odseparowana od pozostałej funkcjonalności.
 
@@ -257,6 +267,10 @@ Główne funkcje administracyjne realizowane są przez terminal. Podstawowe kome
 # UI Użytkownika.
 
 Aplikacja umożliwia aktualizacje stanu tonerów przez użytkownika a także dodanie nowej drukarki. Z poziomu strony można dodać dane lokalizacyjne każdego urządzenia które następnie ustawią się na widoku głównym.
+
+# Funkcjonalność magazynu.
+
+Aplikacja ofreruje zarządzanie zawartością magazynu. Istnieje możliwość dodawania materiałów eksploatacyjnych. Do każdej drukarki można dodawać i odejmować elementy. Aplikacja regularnie sprawdza zawartość i daje ostrzeżenia w przypadku braku elementu na drukarce.
 
 # Deploy aplikacji na środowisku produkcyjnym.
 

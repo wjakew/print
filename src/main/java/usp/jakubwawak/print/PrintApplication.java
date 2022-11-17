@@ -28,14 +28,14 @@ import java.io.IOException;
 import java.io.ObjectInputFilter;
 
 @SpringBootApplication(scanBasePackages = "usp.jakubwawak")
-@PWA(name = "PrinT", shortName = "PT", offlineResources = {})
 @NpmPackage(value = "line-awesome", version = "1.3.0")
+@PWA(name = "Print Application", shortName = "PT", offlineResources = {})
 @EnableVaadin({"usp.jakubwawak"})
 public class PrintApplication implements AppShellConfigurator {
 	public static int debug = 0;
 
 	public static String version = "v1.1.0";
-	public static String build = "print-161122RC3";
+	public static String build = "print-171122RC3";
 
 	public static Database_Connector database;
 

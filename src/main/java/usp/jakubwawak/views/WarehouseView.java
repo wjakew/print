@@ -3,7 +3,7 @@
  * kubawawak@gmail.com/j.wawak@usp.pl
  * all rights reserved
  */
-package usp.jakubwawak.views.warehouse;
+package usp.jakubwawak.views;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.UI;
@@ -45,7 +45,7 @@ public class WarehouseView extends VerticalLayout {
         wv = new Warehouse_View(PrintApplication.database);
         addelement_button = new Button(VaadinIcon.PLUS.create(),this::addElement);
         return_button = new Button(VaadinIcon.HOME.create(),this::gohome);
-        removeelement_button = new Button(VaadinIcon.TRASH.create(),this::removeElement);
+        removeelement_button = new Button(VaadinIcon.MINUS.create(),this::removeElement);
         Database_Manager dm = new Database_Manager(PrintApplication.database);
         printer_list = new ComboBox();
         printer_list.setItems(dm.list_printers());
@@ -79,7 +79,7 @@ public class WarehouseView extends VerticalLayout {
         Database_Warehouse dw = new Database_Warehouse(PrintApplication.database);
         String printer_name = printer_list.getValue().toString();
         String template_name = templates_list.getValue().toString();
-        if ( dw.check_element(printer_name,template_name) == 1){
+        if ( dw.check_element(printer_name,template_name) == 0){
             if ( !printer_name.equals("") && !template_name.equals("") ){
 
                 int ans = dw.add_element(printer_name,template_name);
@@ -87,7 +87,7 @@ public class WarehouseView extends VerticalLayout {
                     Notification addelement_noti = Notification.show("Warehouse updated");
                     UI.getCurrent().getPage().reload();
                 }
-                else{
+                else {
                     Notification addelement_noti = Notification.show("Database error!");
                 }
             }

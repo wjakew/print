@@ -5,6 +5,7 @@
  */
 package usp.jakubwawak.scenaio;
 
+import com.vaadin.flow.component.notification.Notification;
 import usp.jakubwawak.database.Database_Connector;
 import usp.jakubwawak.database.Database_Manager;
 import usp.jakubwawak.database.Database_PrinterEvent;
