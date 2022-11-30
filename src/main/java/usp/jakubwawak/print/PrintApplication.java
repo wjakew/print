@@ -34,8 +34,8 @@ import java.io.ObjectInputFilter;
 public class PrintApplication implements AppShellConfigurator {
 	public static int debug = 0;
 
-	public static String version = "v1.1.0";
-	public static String build = "print-171122RC3";
+	public static String version = "v1.2.0";
+	public static String build = "print-281122RC3";
 
 	public static Database_Connector database;
 

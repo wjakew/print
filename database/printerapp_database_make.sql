@@ -88,6 +88,8 @@ INSERT INTO WAREHOUSE_ELEMENT_TEMPLATE ( warehouse_element_template_name,warehou
 VALUES("YELLOW TONER","TONER");
 INSERT INTO WAREHOUSE_ELEMENT_TEMPLATE ( warehouse_element_template_name,warehouse_element_template_category )
 VALUES("BLACK TONER","TONER");
+INSERT INTO WAREHOUSE_ELEMENT_TEMPLATE ( warehouse_element_template_name,warehouse_element_template_category )
+VALUES("WASTE","OTHER");
 -- table for storing warehouse element
 CREATE TABLE WAREHOUSE_ELEMENT
 (

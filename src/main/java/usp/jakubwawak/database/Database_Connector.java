@@ -6,12 +6,15 @@
 package usp.jakubwawak.database;
 
 import usp.jakubwawak.Maintanance.Configuration_Service;
+import usp.jakubwawak.Maintanance.LogObject;
 import usp.jakubwawak.Maintanance.PrintLog;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Object for connecting to database
@@ -77,6 +80,30 @@ public class Database_Connector {
             nl.add("INSTANCE-NAME-GET","Failed to get instance name ("+e.toString()+")");
             return "";
         }
+    }
+
+    /**
+     * Function for adding log object data
+     * @return ArrayList
+     */
+    public ArrayList<LogObject> load_log(){
+        String query = "SELECT * FROM APPLOG;";
+        ArrayList<LogObject> log_array = new ArrayList<>();
+        try{
+            PreparedStatement ppst = con.prepareStatement(query);
+            ResultSet rs = ppst.executeQuery();
+            while(rs.next()){
+                LogObject log = new LogObject(rs.getInt("applog_id"),rs.getString("applog_code")
+                        ,rs.getString("applog_desc"),rs.getObject("applog_time",LocalDateTime.class).toString());
+                if ( log.validate() ){
+                    log_array.add(log);
+                }
+            }
+            Collections.reverse(log_array);
+        }catch(SQLException e){
+            nl.add("LOG-LOAD-FAILED","Failed to list log data ("+e.toString()+")");
+        }
+        return log_array;
     }
 
     /**

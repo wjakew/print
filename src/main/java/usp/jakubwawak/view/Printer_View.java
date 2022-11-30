@@ -31,6 +31,7 @@ public class Printer_View {
 
     public float last_cyan_data, last_magenta_data, last_yellow_data, last_black_data;
     public int cyan_toner_status,magenta_toner_status,yellow_toner_status,black_toner_status;
+    public int waste_catrige;
 
     /**
      * Constructor
@@ -62,6 +63,9 @@ public class Printer_View {
         if ( black_toner_status == 1){
             toner_data = toner_data + "BLACK ";
         }
+        if ( waste_catrige == 1){
+            toner_data = toner_data + "WASTE CONTAINER";
+        }
         if (toner_data.equals("")){
             toner_data = "EMPTY";
         }
@@ -85,6 +89,9 @@ public class Printer_View {
         }
         if ( black_toner_status == 0){
             toner_data = toner_data + "BLACK ";
+        }
+        if ( waste_catrige == 0){
+            toner_data = toner_data + "WASTE CONTAINER";
         }
         if (toner_data.equals("")){
             toner_data = "";
@@ -164,6 +171,9 @@ public class Printer_View {
                         break;
                     case "BLACK TONER":
                         black_toner_status = 1;
+                        break;
+                    case "WASTE CONTAINER":
+                        waste_catrige = 1;
                         break;
                 }
             }

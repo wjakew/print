@@ -16,6 +16,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
@@ -47,6 +48,10 @@ public class MainView extends VerticalLayout {
     Button setlocation_button;
     Button setinstancename_button;
 
+    Button reload_button;
+
+    Button log_button;
+
     Button warehouse_button;
 
     H3 update_time_label;
@@ -62,6 +67,8 @@ public class MainView extends VerticalLayout {
         setlocation_button = new Button(VaadinIcon.LOCATION_ARROW.create(),this::setlocation);
         warehouse_button = new Button(VaadinIcon.BUILDING.create(),this::warehouseaction);
         setinstancename_button = new Button("Set instance name");
+        reload_button = new Button(VaadinIcon.REFRESH.create(),this::reloadpage);
+        log_button = new Button(VaadinIcon.ARCHIVE.create(),this::showlog);
 
         tpv.load_view();
         grid = new Grid<>(Printer_View.class,false);
@@ -78,10 +85,12 @@ public class MainView extends VerticalLayout {
         grid.addColumn(Printer_View::getBlack).setHeader("Black");
 
         HorizontalLayout hl = new HorizontalLayout();
+        hl.add(reload_button);
         hl.add(addprinter_button);
         hl.add(update_button);
         hl.add(setlocation_button);
         hl.add(warehouse_button);
+        hl.add(log_button);
 
         ArrayList<Printer_View> view = tpv.list_view;
         grid.setItems(view);
@@ -102,6 +111,23 @@ public class MainView extends VerticalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         getStyle().set("text-align", "center");
+    }
+
+    /**
+     * Function for routing to log page
+     * @param e
+     */
+    private void showlog(ClickEvent e){
+        log_button.getUI().ifPresent(ui ->
+                ui.navigate("history"));
+    }
+
+    /**
+     * Function for reloading page
+     * @param event
+     */
+    private void reloadpage(ClickEvent event){
+        UI.getCurrent().getPage().reload();
     }
 
     /**

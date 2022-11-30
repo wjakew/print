@@ -89,7 +89,7 @@ public class Database_Warehouse {
             ppst.setInt(1,printer_id);
             ppst.setString(2,warehouse_element_name);
             ppst.execute();
-            database.nl.add("WAREHOUSE-REMOVE-ELEMENT","Removed element ("+warehouse_element_name+") from printer_id: "+printer_id);
+            database.nl.add("WAREHOUSE-REMOVE-ELEMENT","Removed element ("+warehouse_element_name+") from printer_id: "+printer_id +"/"+printer_name);
             return 1;
         }catch(SQLException e){
             database.nl.add("WAREHOUSE-REMOVE-FAILED","Failed to remove element from warehouse ("+e.toString()+")");
