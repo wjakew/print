@@ -54,6 +54,8 @@ public class MainView extends VerticalLayout {
 
     Button warehouse_button;
 
+    Button printerview_button;
+
     H3 update_time_label;
     /**
      * Constructor
@@ -62,13 +64,14 @@ public class MainView extends VerticalLayout {
         setSpacing(false);
         this.getElement().setAttribute("theme", Lumo.DARK);
         tpv = new TonerPrinter_View(PrintApplication.database);
-        update_button = new Button(VaadinIcon.DOWNLOAD.create(), this::update);
-        addprinter_button = new Button(VaadinIcon.PLUS_CIRCLE.create(),this::addprinter);
-        setlocation_button = new Button(VaadinIcon.LOCATION_ARROW.create(),this::setlocation);
-        warehouse_button = new Button(VaadinIcon.BUILDING.create(),this::warehouseaction);
+        update_button = new Button("Update",VaadinIcon.DOWNLOAD.create(), this::update);
+        addprinter_button = new Button("Add printer",VaadinIcon.PLUS_CIRCLE.create(),this::addprinter);
+        setlocation_button = new Button("Set Printer Location",VaadinIcon.LOCATION_ARROW.create(),this::setlocation);
+        warehouse_button = new Button("Warehouse",VaadinIcon.BUILDING.create(),this::warehouseaction);
         setinstancename_button = new Button("Set instance name");
         reload_button = new Button(VaadinIcon.REFRESH.create(),this::reloadpage);
         log_button = new Button(VaadinIcon.ARCHIVE.create(),this::showlog);
+        printerview_button = new Button(VaadinIcon.PRINT.create(),this::showprinters);
 
         tpv.load_view();
         grid = new Grid<>(Printer_View.class,false);
@@ -91,7 +94,7 @@ public class MainView extends VerticalLayout {
         hl.add(setlocation_button);
         hl.add(warehouse_button);
         hl.add(log_button);
-
+        hl.add(printerview_button);
         ArrayList<Printer_View> view = tpv.list_view;
         grid.setItems(view);
         Icon vaadinIcon = new Icon(VaadinIcon.PRINT);
@@ -111,6 +114,15 @@ public class MainView extends VerticalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         getStyle().set("text-align", "center");
+    }
+
+    /**
+     * Function for routing to printer page
+     * @param e
+     */
+    private void showprinters(ClickEvent e){
+        printerview_button.getUI().ifPresent(ui ->
+                ui.navigate("printers"));
     }
 
     /**

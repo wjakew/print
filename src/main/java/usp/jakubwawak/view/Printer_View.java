@@ -27,6 +27,8 @@ public class Printer_View {
 
     public String printer_localization;
 
+    public String printer_serialnumber;
+
     LocalDateTime last_update;
 
     public float last_cyan_data, last_magenta_data, last_yellow_data, last_black_data;
@@ -115,6 +117,8 @@ public class Printer_View {
         return last_update.toString();
     }
 
+    public String getPrinter_serialnumber(){return printer_serialnumber;};
+
     public String getCyan(){
         if ( last_cyan_data == -69f){
             return "X";
@@ -196,6 +200,7 @@ public class Printer_View {
                 printer_model = rs.getString("printer_model");
                 printer_ip = rs.getString("printer_ip");
                 printer_localization = rs.getString("printer_localization");
+                printer_serialnumber = rs.getString("printer_serialnumber");
                 PrintApplication.database.nl.add("VIEW-DETAILS","Loaded details for printer "+printer_name);
             } else {
                 printer_name = "empty";

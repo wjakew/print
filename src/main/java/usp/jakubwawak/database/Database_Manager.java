@@ -6,6 +6,8 @@
 package usp.jakubwawak.database;
 
 
+import usp.jakubwawak.view.Printer_View;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -245,6 +247,25 @@ public class Database_Manager {
                 data.add(rs.getString("printer_name"));
             }
 
+        }catch(SQLException e){
+            database.nl.add("PRINTER-LIST-FAILED","Failed to list printers ("+e.toString()+")");
+        }
+        return data;
+    }
+
+    /**
+     * Funciton for listing printer objects
+     * @return ArrayList
+     */
+    public ArrayList<Printer_View> list_printers_objects(){
+        ArrayList<Printer_View> data = new ArrayList<>();
+        String query = "SELECT * FROM PRINTER";
+        try{
+            PreparedStatement ppst = database.con.prepareStatement(query);
+            ResultSet rs = ppst.executeQuery();
+            while(rs.next()){
+                data.add(new Printer_View(rs.getInt("printer_id")));
+            }
         }catch(SQLException e){
             database.nl.add("PRINTER-LIST-FAILED","Failed to list printers ("+e.toString()+")");
         }
