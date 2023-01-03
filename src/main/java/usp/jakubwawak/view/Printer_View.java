@@ -71,6 +71,7 @@ public class Printer_View {
         if (toner_data.equals("")){
             toner_data = "EMPTY";
         }
+        PrintApplication.database.nl.add("WAREHOUSE-STATUS-LOADER","Status: "+toner_data);
         return toner_data;
     }
 
@@ -238,5 +239,27 @@ public class Printer_View {
         } catch (SQLException e) {
             PrintApplication.database.nl.add("LASTTONER-FAILED","Failed to load last toner data ("+e.toString()+")");
         }
+    }
+
+    /**
+     * Function for loading printer logs
+     * @return String
+     */
+    public String get_printer_logs(){
+        String logs = "";
+        String query = "SELECT * FROM APPLOG;";
+        try{
+            PreparedStatement ppst = PrintApplication.database.con.prepareStatement(query);
+            ResultSet rs = ppst.executeQuery();
+            while(rs.next()){
+                String log = rs.getString("applog_desc");
+                if (log.contains("id:"+printer_id)){
+                    logs = logs + log + "\n";
+                }
+            }
+        }catch(SQLException e){
+            PrintApplication.database.nl.add("PRINTER-LOG-GET-FAILED","Failed to get printer log data ("+e.toString());
+        }
+        return logs;
     }
 }
