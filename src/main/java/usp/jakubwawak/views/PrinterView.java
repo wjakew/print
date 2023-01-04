@@ -1,3 +1,8 @@
+/**
+ * by Jakub Wawak
+ * kubawawak@gmail.com/j.wawak@usp.pl
+ * all rights reserved
+ */
 package usp.jakubwawak.views;
 
 import com.vaadin.flow.component.ClickEvent;
@@ -18,8 +23,10 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.Lumo;
 import usp.jakubwawak.database.Database_Manager;
+import usp.jakubwawak.database.Database_Warehouse;
 import usp.jakubwawak.print.PrintApplication;
 import usp.jakubwawak.view.Printer_View;
+import usp.jakubwawak.views.components.PrinterDetails_Component;
 
 @PageTitle("Printers")
 @Route(value = "printers")
@@ -27,9 +34,8 @@ import usp.jakubwawak.view.Printer_View;
 public class PrinterView extends VerticalLayout {
 
     TextField search_printers;
-    TextArea log_area;
     Grid<Printer_View> main_grid;
-    Button return_button, update_button;
+    Button return_button;
 
     HorizontalLayout main_layout;
     VerticalLayout left_wing,right_wing;
@@ -40,9 +46,9 @@ public class PrinterView extends VerticalLayout {
     H2 printername_label;
     H3 printerlocalization_label;
 
-    int printer_id;
-
     Checkbox cyan_checkbox, magenta_checkbox, yellow_checkbox,black_checkbox,waste_containter;
+
+    String tonervalues_old;
 
     /**
      * Constructor
@@ -51,6 +57,7 @@ public class PrinterView extends VerticalLayout {
         setSpacing(false);
         this.getElement().setAttribute("theme", Lumo.DARK);
 
+        tonervalues_old = "00000";
         main_layout = new HorizontalLayout();
         main_layout.setSizeFull();
         checkbox_layout = new HorizontalLayout();
@@ -59,12 +66,7 @@ public class PrinterView extends VerticalLayout {
         main_grid = new Grid<>(Printer_View.class,false);
         main_grid.addColumn(Printer_View::getName).setHeader("Printer Name");
         main_grid.addColumn(Printer_View::getPrinter_serialnumber).setHeader("Serial Number");
-        log_area = new TextArea();
-        update_button = new Button("",VaadinIcon.PENCIL.create());
         return_button = new Button("",VaadinIcon.HOME.create(),this::returnhome_action);
-        log_area.setWidth("400px");
-        log_area.setHeight("300px");
-        log_area.setEnabled(false);
         Database_Manager dm = new Database_Manager(PrintApplication.database);
 
         GridListDataView<Printer_View> dataView = main_grid.setItems(dm.list_printers_objects());
@@ -124,23 +126,8 @@ public class PrinterView extends VerticalLayout {
         left_wing.add(search_printers);
         left_wing.add(main_grid);
 
-        //right wing
-        printername_label.setText("");
-        right_wing.add(printername_label);
-        printerlocalization_label.setText("");
-        right_wing.add(printerlocalization_label);
-        checkbox_layout.add(cyan_checkbox,magenta_checkbox,yellow_checkbox,black_checkbox,waste_containter,update_button);
-        right_wing.add(checkbox_layout);
-        right_wing.add(log_area);
-
-        //setting all setVisible(false)
-        right_wing.setVisible(false);
-        checkbox_layout.setVisible(false);
-        log_area.setVisible(false);
-        right_wing.setAlignItems(Alignment.CENTER);
 
         main_layout.add(left_wing);
-        main_layout.add(right_wing);
 
         add(main_layout);
     }
@@ -150,60 +137,12 @@ public class PrinterView extends VerticalLayout {
      * @param printer_id
      */
     void prepare_details_view(int printer_id){
-        if ( printer_id > 0 )
-        {
-            this.printer_id = printer_id;
-            //create view
-            Printer_View printer = new Printer_View(printer_id);
-            printer.load_warehouse_data();
-            printer.get_warehouse_status();
-
-            printername_label.setText(printer.printer_name);
-            if (printer.printer_localization == null){
-                printerlocalization_label.setText("Brak lokalizacji");
-            }
-            else{
-                printerlocalization_label.setText(printer.printer_localization);
-            }
-
-            String warehouse = printer.get_warehouse_status();
-
-            if ( warehouse.contains("CYAN") ){
-                cyan_checkbox.setValue(true);
-            }
-            else{
-                cyan_checkbox.setValue(false);
-            }
-            if ( warehouse.contains("MAGENTA") ){
-                magenta_checkbox.setValue(true);
-            }
-            else{
-                magenta_checkbox.setValue(false);
-            }
-            if ( warehouse.contains("YELLOW") ){
-                yellow_checkbox.setValue(true);
-            }
-            else{
-                yellow_checkbox.setValue(false);
-            }
-            if ( warehouse.contains("BLACK") ){
-                black_checkbox.setValue(true);
-            }
-            else{
-                black_checkbox.setValue(false);
-            }
-            if ( warehouse.contains("WASTE") ){
-                waste_containter.setValue(true);
-            }
-            else{
-                waste_containter.setValue(false);
-            }
-            checkbox_layout.setEnabled(false);
-            log_area.setValue(printer.get_printer_logs());
+        if ( printer_id > 0 ) {
+            PrinterDetails_Component pdc = new PrinterDetails_Component(printer_id);
+            pdc.create_dialog();
+            add(pdc.main_dialog);
+            pdc.main_dialog.open();
         }
-        right_wing.setVisible(true);
-        checkbox_layout.setVisible(true);
-        log_area.setVisible(true);
     }
 
     /**
