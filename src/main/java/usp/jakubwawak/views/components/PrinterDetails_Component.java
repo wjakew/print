@@ -8,12 +8,15 @@ package usp.jakubwawak.views.components;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import usp.jakubwawak.view.Printer_View;
+import usp.jakubwawak.view.TonerSnapshot;
 
 /**
  * Component for showing printer details
@@ -27,6 +30,8 @@ public class PrinterDetails_Component {
     H1 printername_header;
     H3 localization_header;
 
+    Grid<TonerSnapshot> snapshotgrid;
+
     TextArea warehousedata_area,log_area;
 
     int printer_id;
@@ -39,6 +44,7 @@ public class PrinterDetails_Component {
         this.printer_id = printer_id;
         main_dialog = new Dialog();
         main_layout = new VerticalLayout();
+        snapshotgrid = new Grid<>(TonerSnapshot.class,false);
 
         printername_header = new H1();
         localization_header = new H3();
@@ -64,7 +70,7 @@ public class PrinterDetails_Component {
         warehousedata_area.setValue(printer_obj.get_warehouse_status());
         log_area.setValue(printer_obj.get_printer_logs());
 
-        warehousedata_area.setHeight("70px");
+        warehousedata_area.setHeight("80px");
         warehousedata_area.setWidth("350px");
         warehousedata_area.setEnabled(false);
         log_area.setHeight("200px");
@@ -80,7 +86,17 @@ public class PrinterDetails_Component {
         main_layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
         main_layout.getStyle().set("text-align", "center");
 
-        main_dialog.add(main_layout);
+        snapshotgrid.addColumn(TonerSnapshot::getTime).setHeader("Time");
+        snapshotgrid.addColumn(TonerSnapshot::getToner_data).setHeader("Snapshot");
+        snapshotgrid.setItems(printer_obj.snapshots_list);
+        snapshotgrid.setSizeFull();
+        snapshotgrid.setWidth("600px");
+        snapshotgrid.setHeight("300px");
+
+        VerticalLayout gridlayout = new VerticalLayout(new H3("Snapshots"),snapshotgrid);
+        HorizontalLayout splitlayout = new HorizontalLayout(main_layout,gridlayout);
+        splitlayout.setSizeFull();
+        main_dialog.add(splitlayout);
         main_dialog.getFooter().add(close_button);
     }
 

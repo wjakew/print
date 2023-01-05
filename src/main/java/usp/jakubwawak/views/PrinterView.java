@@ -15,6 +15,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -37,9 +38,6 @@ public class PrinterView extends VerticalLayout {
     Grid<Printer_View> main_grid;
     Button return_button;
 
-    HorizontalLayout main_layout;
-    VerticalLayout left_wing,right_wing;
-
     HorizontalLayout checkbox_layout;
 
     //printer view elements
@@ -58,8 +56,6 @@ public class PrinterView extends VerticalLayout {
         this.getElement().setAttribute("theme", Lumo.DARK);
 
         tonervalues_old = "00000";
-        main_layout = new HorizontalLayout();
-        main_layout.setSizeFull();
         checkbox_layout = new HorizontalLayout();
         search_printers = new TextField();
         search_printers.setPlaceholder("Search...");
@@ -115,21 +111,12 @@ public class PrinterView extends VerticalLayout {
     void prepare_view(){
         add(return_button);
         add(new H1("Printers"));
-        left_wing = new VerticalLayout();
-        right_wing = new VerticalLayout();
-        search_printers.setSizeFull();
-
-        //left wing
-        left_wing.setSpacing(false);
-        left_wing.setAlignItems(Alignment.CENTER);
-        main_layout.setJustifyContentMode(JustifyContentMode.CENTER);
-        left_wing.add(search_printers);
-        left_wing.add(main_grid);
-
-
-        main_layout.add(left_wing);
-
-        add(main_layout);
+        add(search_printers);
+        add(main_grid);
+        setSizeFull();
+        setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
+        getStyle().set("text-align", "center");
     }
 
     /**

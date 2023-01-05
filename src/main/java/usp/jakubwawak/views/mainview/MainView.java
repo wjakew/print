@@ -26,6 +26,8 @@ import usp.jakubwawak.print.PrintApplication;
 import usp.jakubwawak.scenaio.UpdateTonerData_Scenario;
 import usp.jakubwawak.view.Printer_View;
 import usp.jakubwawak.view.TonerPrinter_View;
+import usp.jakubwawak.views.components.TonerDetails_Component;
+import usp.jakubwawak.views.components.WarehouseErrorList_Component;
 import usp.jakubwawak.warehouse.Warehouse_Error;
 import usp.jakubwawak.warehouse.Warehouse_Manager;
 
@@ -56,6 +58,8 @@ public class MainView extends VerticalLayout {
 
     Button printerview_button;
 
+    Button warehouseerror_button;
+
     H3 update_time_label;
     /**
      * Constructor
@@ -68,6 +72,8 @@ public class MainView extends VerticalLayout {
         addprinter_button = new Button("Add printer",VaadinIcon.PLUS_CIRCLE.create(),this::addprinter);
         setlocation_button = new Button("Set Printer Location",VaadinIcon.LOCATION_ARROW.create(),this::setlocation);
         warehouse_button = new Button("Warehouse",VaadinIcon.BUILDING.create(),this::warehouseaction);
+        Warehouse_Manager wm = new Warehouse_Manager(PrintApplication.database);
+        warehouseerror_button = new Button(wm.prepare_raport().size()+" Errors",this::warehouseerror_action);
         setinstancename_button = new Button("Set instance name");
         reload_button = new Button(VaadinIcon.REFRESH.create(),this::reloadpage);
         log_button = new Button(VaadinIcon.ARCHIVE.create(),this::showlog);
@@ -79,7 +85,7 @@ public class MainView extends VerticalLayout {
         update_time_label = new H3("Last update: "+tpv.list_view.get(0).getLastUpdate());
 
         grid.addColumn(Printer_View::getID).setHeader("AtmosferaID");
-        grid.addColumn(Printer_View::getName).setHeader("Nazwa drukarki");
+        grid.addColumn(Printer_View::getName).setHeader("Nazwa drukarki").setResizable(true);
         grid.addColumn(Printer_View::getLocalization).setHeader("Lokalizacja");
         grid.addColumn(Printer_View::getIP).setHeader("Adres IP");
         grid.addColumn(Printer_View::getCyan).setHeader("Cyan");
@@ -93,6 +99,7 @@ public class MainView extends VerticalLayout {
         hl.add(update_button);
         hl.add(setlocation_button);
         hl.add(warehouse_button);
+        hl.add(warehouseerror_button);
         hl.add(log_button);
         hl.add(printerview_button);
         ArrayList<Printer_View> view = tpv.list_view;
@@ -101,12 +108,14 @@ public class MainView extends VerticalLayout {
         add(vaadinIcon);
         add(new H6(PrintApplication.version+"/"+PrintApplication.build+"/"+PrintApplication.database.get_instance_name()));
         add(hl);
-        Warehouse_Manager wm = new Warehouse_Manager(PrintApplication.database);
-        if ( wm.prepare_raport().size() > 0 ){
-            add(warning_grid_loader());
-        }
         add(update_time_label);
         add(grid);
+
+        grid.addItemClickListener(e -> {
+            Printer_View pv = e.getItem();
+            if ( pv != null ){
+                show_tonerdetailsdialog(pv.printer_id);
+            }});
 
         add(new H6("By Jakub Wawak / kubawawak@gmail.com / j.wawak@usp.pl"));
 
@@ -114,6 +123,17 @@ public class MainView extends VerticalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         getStyle().set("text-align", "center");
+    }
+
+    /**
+     * Function for opening dialog window
+     * @param e
+     */
+    private void warehouseerror_action(ClickEvent e){
+        WarehouseErrorList_Component welc = new WarehouseErrorList_Component();
+        welc.create_dialog();
+        add(welc.main_dialog);
+        welc.main_dialog.open();
     }
 
     /**
@@ -166,16 +186,14 @@ public class MainView extends VerticalLayout {
     }
 
     /**
-     * Function for load grid fill with warnings
-     * @return Grid
+     * Function for showing printer details dialog
+     * @param printer_id
      */
-    private Grid<Warehouse_Error> warning_grid_loader(){
-        Warehouse_Manager wm = new Warehouse_Manager(PrintApplication.database);
-        Grid<Warehouse_Error> warning_grid = new Grid<>(Warehouse_Error.class,false);
-        warning_grid.addColumn(Warehouse_Error::getPrinter_name).setHeader("Nazwa drukarki");
-        warning_grid.addColumn(Warehouse_Error::getError_data).setHeader("Opis błędu");
-        warning_grid.setItems(wm.prepare_raport());
-        return warning_grid;
+    private void show_tonerdetailsdialog(int printer_id){
+        TonerDetails_Component tdc = new TonerDetails_Component(printer_id);
+        tdc.create_dialog();
+        add(tdc.main_dialog);
+        tdc.main_dialog.open();
     }
 
 

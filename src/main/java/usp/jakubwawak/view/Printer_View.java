@@ -35,6 +35,8 @@ public class Printer_View {
     public int cyan_toner_status,magenta_toner_status,yellow_toner_status,black_toner_status;
     public int waste_catrige;
 
+    public ArrayList<TonerSnapshot> snapshots_list;
+
     /**
      * Constructor
      *
@@ -45,6 +47,7 @@ public class Printer_View {
         last_cyan_data = 0; last_magenta_data = 0; last_yellow_data = 0; last_black_data = 0;
         load_printer_details();
         load_last_toner_data();
+        load_tonersnapshots();
     }
 
     /**
@@ -262,4 +265,33 @@ public class Printer_View {
         }
         return logs;
     }
+
+    /**
+     * Function for loading toner snapshots
+     */
+    void load_tonersnapshots(){
+        snapshots_list = new ArrayList<>();
+        String query = "SELECT * from TONER_DATA where printer_id = ?;";
+        try{
+            PreparedStatement ppst = PrintApplication.database.con.prepareStatement(query);
+            ppst.setInt(1,printer_id);
+            ResultSet rs = ppst.executeQuery();
+            while(rs.next()){
+                TonerSnapshot ts = new TonerSnapshot(rs.getObject("toner_data_time",LocalDateTime.class).toString(),rs.getString("toner_data_value"));
+                ts.add_details(rs.getFloat("toner_data_cyan"),rs.getFloat("toner_data_magenta"),rs.getFloat("toner_data_yellow"),rs.getFloat("toner_data_black"));
+                snapshots_list.add(ts);
+            }
+        }catch(SQLException e){
+            PrintApplication.database.nl.add("TONER-SNAPSHOT-FAILED","Failed to load toner snapshots ("+e.toString()+")");
+        }
+    }
+
+    /**
+     * Function for getting snapshot object data
+     * @return ArrayList
+     */
+    public ArrayList get_tonersnapshot(){
+        return snapshots_list;
+    }
 }
+
