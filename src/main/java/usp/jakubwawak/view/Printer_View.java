@@ -121,7 +121,14 @@ public class Printer_View {
         return last_update.toString();
     }
 
-    public String getPrinter_serialnumber(){return printer_serialnumber;};
+    public String getPrinter_serialnumber(){
+        if ( printer_serialnumber != null ){
+            return printer_serialnumber;
+        }
+        else{
+            return "error";
+        }
+    }
 
     public String getCyan(){
         if ( last_cyan_data == -69f){

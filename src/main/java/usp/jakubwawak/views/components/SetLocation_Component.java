@@ -3,31 +3,32 @@
  * kubawawak@gmail.com/j.wawak@usp.pl
  * all rights reserved
  */
-package usp.jakubwawak.views.setlocation;
+package usp.jakubwawak.views.components;
 
 import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.Lumo;
+import org.apache.poi.ss.formula.functions.T;
 import usp.jakubwawak.database.Database_Manager;
 import usp.jakubwawak.print.PrintApplication;
 
 import java.util.ArrayList;
 
 /**
- * Page for setting location view data
+ * Object for creating component for setting location
  */
-@PageTitle("Set Location")
-@Route(value = "setlocation")
-public class SetLocationView extends VerticalLayout {
+public class SetLocation_Component {
 
+    public Dialog main_dialog;
+    VerticalLayout main_layout;
 
     ComboBox<String> comboBox;
     TextField localization_field;
@@ -37,32 +38,32 @@ public class SetLocationView extends VerticalLayout {
     /**
      * Constructor
      */
-    public SetLocationView(){
-        setSpacing(false);
-        this.getElement().setAttribute("theme", Lumo.DARK);
-
-        add(new H1("Update printer location"));
-
-        Database_Manager dm = new Database_Manager(PrintApplication.database);
-
-        comboBox = new ComboBox<>("Printer");
-        localization_field = new TextField();
-        localization_field.setLabel("Localization");
+    public SetLocation_Component(){
+        main_dialog = new Dialog();
+        main_layout = new VerticalLayout();
         update_button = new Button("Update",this::updateaction);
-        comboBox.setAllowCustomValue(false);
+        comboBox = new ComboBox<>("Printer");
+        localization_field = new TextField("New Localization");
+        main_layout.setSpacing(false);
+    }
 
+    /**
+     * Function for creating dialog
+     */
+    public void create_dialog(){
+        Database_Manager dm = new Database_Manager(PrintApplication.database);
         ArrayList<String> printer_list = dm.list_printers();
         comboBox.setItems(printer_list);
 
-        add(comboBox);
-        add(localization_field);
-        add(update_button);
+        main_layout.add(comboBox);
+        main_layout.add(localization_field);
+        main_layout.add(update_button);
 
-
-        setSizeFull();
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-        getStyle().set("text-align", "center");
+        main_layout.setSizeFull();
+        main_layout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        main_layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
+        main_layout.getStyle().set("text-align", "center");
+        main_dialog.add(main_layout);
     }
 
     /**
@@ -85,6 +86,7 @@ public class SetLocationView extends VerticalLayout {
                         update_button.setText("Return");
                         localization_field.setEnabled(false);
                         comboBox.setEnabled(false);
+                        UI.getCurrent().getPage().reload();
                         break;
                     }
                     case -1:
@@ -102,8 +104,7 @@ public class SetLocationView extends VerticalLayout {
             }
         }
         else{
-            update_button.getUI().ifPresent(ui ->
-                    ui.navigate("mainview"));
+            main_dialog.close();
         }
     }
 }

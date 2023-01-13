@@ -15,6 +15,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
+import org.apache.commons.math3.analysis.function.Add;
 import usp.jakubwawak.view.Printer_View;
 import usp.jakubwawak.view.TonerSnapshot;
 
@@ -34,6 +35,8 @@ public class PrinterDetails_Component {
 
     TextArea warehousedata_area,log_area;
 
+    Button addtoner_button, createtemplate_button;
+
     int printer_id;
     Printer_View printer_obj;
 
@@ -45,6 +48,9 @@ public class PrinterDetails_Component {
         main_dialog = new Dialog();
         main_layout = new VerticalLayout();
         snapshotgrid = new Grid<>(TonerSnapshot.class,false);
+
+        addtoner_button = new Button("Add element...",this::addtoner_action);
+        createtemplate_button = new Button("Create template",this::createtemplate);
 
         printername_header = new H1();
         localization_header = new H3();
@@ -80,6 +86,7 @@ public class PrinterDetails_Component {
         main_layout.add(localization_header);
         main_layout.add(warehousedata_area);
         main_layout.add(log_area);
+        main_layout.add(new HorizontalLayout(addtoner_button,createtemplate_button));
 
         main_layout.setSizeFull();
         main_layout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
@@ -106,5 +113,29 @@ public class PrinterDetails_Component {
      */
     private void close_action(ClickEvent e){
         main_dialog.close();
+    }
+
+    /**
+     * Function for adding toner data to warehouse
+     * @param e
+     */
+    private void addtoner_action(ClickEvent e){
+        AddToner_Component atc = new AddToner_Component(printer_id);
+        atc.create_dialog();
+        main_dialog.add(atc.main_dialog);
+        atc.main_dialog.open();
+        printer_obj.load_warehouse_data();
+        warehousedata_area.setValue(printer_obj.get_warehouse_status());
+    }
+
+    /**
+     * Function for creating template
+     * @param e
+     */
+    private void createtemplate(ClickEvent e){
+        CreateTemplate_Component ctc = new CreateTemplate_Component(printer_id);
+        ctc.create_dialog();
+        main_dialog.add(ctc.dialog);
+        ctc.dialog.open();
     }
 }

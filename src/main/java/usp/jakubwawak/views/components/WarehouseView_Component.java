@@ -3,20 +3,20 @@
  * kubawawak@gmail.com/j.wawak@usp.pl
  * all rights reserved
  */
-package usp.jakubwawak.views;
+package usp.jakubwawak.views.components;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.Lumo;
 import usp.jakubwawak.database.Database_Manager;
 import usp.jakubwawak.database.Database_Warehouse;
@@ -24,27 +24,30 @@ import usp.jakubwawak.print.PrintApplication;
 import usp.jakubwawak.view.Printer_View;
 import usp.jakubwawak.view.Warehouse_View;
 
-@PageTitle("Warehouse")
-@Route(value = "warehouse")
-public class WarehouseView extends VerticalLayout {
+/**
+ * Object for creating warehouse view component
+ */
+public class WarehouseView_Component {
 
+    public Dialog main_dialog;
+    VerticalLayout main_layout;
 
-    Button addelement_button,removeelement_button,return_button;
+    Button addelement_button,removeelement_button;
     ComboBox printer_list,templates_list;
     Grid<Printer_View> grid;
     Warehouse_View wv;
 
-
     /**
      * Constructor
      */
-    public WarehouseView(){
-        setSpacing(false);
-        this.getElement().setAttribute("theme", Lumo.DARK);
+    public WarehouseView_Component(){
+        main_dialog = new Dialog();
+        main_layout = new VerticalLayout();
+
+        main_layout.setSpacing(false);
 
         wv = new Warehouse_View(PrintApplication.database);
         addelement_button = new Button(VaadinIcon.PLUS.create(),this::addElement);
-        return_button = new Button(VaadinIcon.HOME.create(),this::gohome);
         removeelement_button = new Button(VaadinIcon.MINUS.create(),this::removeElement);
         Database_Manager dm = new Database_Manager(PrintApplication.database);
         printer_list = new ComboBox();
@@ -53,23 +56,17 @@ public class WarehouseView extends VerticalLayout {
         templates_list = new ComboBox();
         templates_list.setItems(dw.list_warehouse_templates());
 
-
         prepare_view();
 
-        setSizeFull();
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-        getStyle().set("text-align", "center");
+        main_layout.setSizeFull();
+        main_layout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        main_layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
+        main_layout.getStyle().set("text-align", "center");
+
+        main_dialog.add(main_layout);
     }
 
-    /**
-     * Function for routing to home
-     * @param e
-     */
-    private void gohome(ClickEvent e){
-        return_button.getUI().ifPresent(
-                ui -> ui.navigate("mainview"));
-    }
+
 
     /**
      * Function for adding warehouse element to database
@@ -135,10 +132,9 @@ public class WarehouseView extends VerticalLayout {
      * Function for preparing view
      */
     void prepare_view(){
-        add(return_button);
-        add(new H1("Warehouse"));
+        main_layout.add(new H1("Warehouse"));
         HorizontalLayout hl = new HorizontalLayout(printer_list,templates_list,addelement_button,removeelement_button);
-        add(hl);
+        main_layout.add(hl);
         prepare_warehouse();
     }
 
@@ -154,7 +150,6 @@ public class WarehouseView extends VerticalLayout {
         grid.addColumn(Printer_View::get_warehouse_status).setHeader("Warehouse status");
 
         grid.setItems(wv.printers);
-        add(grid);
+        main_layout.add(grid);
     }
-
 }

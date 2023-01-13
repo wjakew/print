@@ -6,6 +6,7 @@
 package usp.jakubwawak.print;
 
 import com.vaadin.flow.component.dependency.NpmPackage;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.spring.annotation.EnableVaadin;
@@ -34,13 +35,15 @@ import java.io.ObjectInputFilter;
 public class PrintApplication implements AppShellConfigurator {
 	public static int debug = 0;
 
-	public static String version = "v1.3.0";
-	public static String build = "print-050123RC4";
+	public static String version = "v1.4.0";
+	public static String build = "print-130123RC5";
 
 	public static Database_Connector database;
 
 	public static Configuration_Service cs;
 	public static PrintLog log;
+
+	public static VerticalLayout main_layout;
 
 	/**
 	 * Main app

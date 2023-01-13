@@ -3,12 +3,12 @@
  * kubawawak@gmail.com/j.wawak@usp.pl
  * all rights reserved
  */
-package usp.jakubwawak.views;
+package usp.jakubwawak.views.components;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
-import com.vaadin.flow.component.combobox.MultiSelectComboBox;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.dataview.GridListDataView;
 import com.vaadin.flow.component.html.H1;
@@ -18,25 +18,21 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.Lumo;
 import usp.jakubwawak.database.Database_Manager;
-import usp.jakubwawak.database.Database_Warehouse;
 import usp.jakubwawak.print.PrintApplication;
 import usp.jakubwawak.view.Printer_View;
-import usp.jakubwawak.views.components.PrinterDetails_Component;
 
-@PageTitle("Printers")
-@Route(value = "printers")
-
-public class PrinterView extends VerticalLayout {
+/**
+ * Object for creating Printer view component
+ */
+public class PrintersView_Component {
+    public Dialog dialog;
+    VerticalLayout main_layout;
 
     TextField search_printers;
     Grid<Printer_View> main_grid;
-    Button return_button;
 
     HorizontalLayout checkbox_layout;
 
@@ -51,9 +47,13 @@ public class PrinterView extends VerticalLayout {
     /**
      * Constructor
      */
-    public PrinterView(){
-        setSpacing(false);
-        this.getElement().setAttribute("theme", Lumo.DARK);
+    public PrintersView_Component(){
+        dialog = new Dialog();
+        main_layout = new VerticalLayout();
+
+
+        main_layout.setSpacing(false);
+
 
         tonervalues_old = "00000";
         checkbox_layout = new HorizontalLayout();
@@ -62,24 +62,23 @@ public class PrinterView extends VerticalLayout {
         main_grid = new Grid<>(Printer_View.class,false);
         main_grid.addColumn(Printer_View::getName).setHeader("Printer Name");
         main_grid.addColumn(Printer_View::getPrinter_serialnumber).setHeader("Serial Number");
-        return_button = new Button("",VaadinIcon.HOME.create(),this::returnhome_action);
         Database_Manager dm = new Database_Manager(PrintApplication.database);
 
         GridListDataView<Printer_View> dataView = main_grid.setItems(dm.list_printers_objects());
         search_printers.addValueChangeListener(e -> dataView.refreshAll());
         dataView.addFilter(printer ->
         {
-           String searchTerm = search_printers.getValue().trim();
+            String searchTerm = search_printers.getValue().trim();
 
-           if ( searchTerm.isEmpty() ){
-               return true;
-           }
+            if ( searchTerm.isEmpty() ){
+                return true;
+            }
 
-           boolean matchesName = printer.getName().contains(searchTerm);
+            boolean matchesName = printer.getName().contains(searchTerm);
 
-           boolean matchesSerial = printer.getPrinter_serialnumber().contains(searchTerm);
+            boolean matchesSerial = printer.getPrinter_serialnumber().contains(searchTerm);
 
-           return matchesName || matchesSerial;
+            return matchesName || matchesSerial;
         });
         printername_label = new H2();
         printerlocalization_label = new H3();
@@ -97,35 +96,32 @@ public class PrinterView extends VerticalLayout {
         main_grid.setHeight("600px");
         main_grid.setMultiSort(true);
 
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-
 
         main_grid.setSelectionMode(Grid.SelectionMode.NONE);
         main_grid.addItemClickListener(e -> {
-                    Printer_View pv = e.getItem();
-                    if ( pv != null ){
-                        prepare_details_view(pv.printer_id);
-                    }});
+            Printer_View pv = e.getItem();
+            if ( pv != null ){
+                prepare_details_view(pv.printer_id);
+            }});
 
-        setSizeFull();
-        setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
-        setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
-        getStyle().set("text-align", "center");
+        main_layout.setSizeFull();
+        main_layout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        main_layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
+        main_layout.getStyle().set("text-align", "center");
+
+        dialog.setWidth("900px");
+        dialog.setHeight("650px");
+        dialog.add(main_layout);
     }
+
 
     /**
      * Function for preparing view
      */
     void prepare_view(){
-        add(return_button);
-        add(new H1("Printers"));
-        add(search_printers);
-        add(main_grid);
-        setSizeFull();
-        setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
-        setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
-        getStyle().set("text-align", "center");
+        main_layout.add(new H1("Printers"));
+        main_layout.add(search_printers);
+        main_layout.add(main_grid);
     }
 
     /**
@@ -136,17 +132,8 @@ public class PrinterView extends VerticalLayout {
         if ( printer_id > 0 ) {
             PrinterDetails_Component pdc = new PrinterDetails_Component(printer_id);
             pdc.create_dialog();
-            add(pdc.main_dialog);
+            main_layout.add(pdc.main_dialog);
             pdc.main_dialog.open();
         }
-    }
-
-    /**
-     * Function for returning to home page
-     * @param e
-     */
-    private void returnhome_action(ClickEvent e){
-        return_button.getUI().ifPresent(ui ->
-                ui.navigate("mainview"));
     }
 }

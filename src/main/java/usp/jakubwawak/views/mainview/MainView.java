@@ -26,8 +26,7 @@ import usp.jakubwawak.print.PrintApplication;
 import usp.jakubwawak.scenaio.UpdateTonerData_Scenario;
 import usp.jakubwawak.view.Printer_View;
 import usp.jakubwawak.view.TonerPrinter_View;
-import usp.jakubwawak.views.components.TonerDetails_Component;
-import usp.jakubwawak.views.components.WarehouseErrorList_Component;
+import usp.jakubwawak.views.components.*;
 import usp.jakubwawak.warehouse.Warehouse_Error;
 import usp.jakubwawak.warehouse.Warehouse_Manager;
 
@@ -39,7 +38,6 @@ import java.util.ArrayList;
 
 @PageTitle("Printer View")
 @Route(value = "mainview")
-@RouteAlias(value = "/")
 public class MainView extends VerticalLayout {
 
     Grid<Printer_View> grid;
@@ -129,7 +127,7 @@ public class MainView extends VerticalLayout {
      * Function for opening dialog window
      * @param e
      */
-    private void warehouseerror_action(ClickEvent e){
+    public void warehouseerror_action(ClickEvent e){
         WarehouseErrorList_Component welc = new WarehouseErrorList_Component();
         welc.create_dialog();
         add(welc.main_dialog);
@@ -140,25 +138,27 @@ public class MainView extends VerticalLayout {
      * Function for routing to printer page
      * @param e
      */
-    private void showprinters(ClickEvent e){
-        printerview_button.getUI().ifPresent(ui ->
-                ui.navigate("printers"));
+    public void showprinters(ClickEvent e){
+        PrintersView_Component pvc = new PrintersView_Component();
+        add(pvc.dialog);
+        pvc.dialog.open();
     }
 
     /**
      * Function for routing to log page
      * @param e
      */
-    private void showlog(ClickEvent e){
-        log_button.getUI().ifPresent(ui ->
-                ui.navigate("history"));
+    public void showlog(ClickEvent e){
+        LogView_Component lvc = new LogView_Component();
+        add(lvc.main_dialog);
+        lvc.main_dialog.open();
     }
 
     /**
      * Function for reloading page
      * @param event
      */
-    private void reloadpage(ClickEvent event){
+    public void reloadpage(ClickEvent event){
         UI.getCurrent().getPage().reload();
     }
 
@@ -166,23 +166,31 @@ public class MainView extends VerticalLayout {
      * Function for routing to the addprinter page
      * @param event
      */
-    private void addprinter(ClickEvent event){
-        addprinter_button.getUI().ifPresent(ui ->
-                ui.navigate("addprinter"));
+    public void addprinter(ClickEvent event){
+        AddPrinter_Component apc = new AddPrinter_Component();
+        add(apc.dialog);
+        apc.dialog.open();
     }
 
     /**
      * Function for setting location
      * @param e
      */
-    private void setlocation(ClickEvent e){
-        setlocation_button.getUI().ifPresent(
-                ui -> ui.navigate("setlocation"));
+    public void setlocation(ClickEvent e){
+        SetLocation_Component slc = new SetLocation_Component();
+        slc.create_dialog();
+        add(slc.main_dialog);
+        slc.main_dialog.open();
     }
 
-    private void warehouseaction(ClickEvent e){
-        warehouse_button.getUI().ifPresent(
-                ui -> ui.navigate("warehouse"));
+    /**
+     * Function for action opening warehouse
+     * @param e
+     */
+    public void warehouseaction(ClickEvent e){
+        WarehouseView_Component wvc = new WarehouseView_Component();
+        add(wvc.main_dialog);
+        wvc.main_dialog.open();
     }
 
     /**

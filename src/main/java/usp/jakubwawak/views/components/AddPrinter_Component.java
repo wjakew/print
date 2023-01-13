@@ -1,55 +1,65 @@
-package usp.jakubwawak.views.addprinter;
+/**
+ * by Jakub Wawak
+ * kubawawak@gmail.com/j.wawak@usp.pl
+ * all rights reserved
+ */
+package usp.jakubwawak.views.components;
 
 import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.theme.lumo.Lumo;
 import usp.jakubwawak.database.Database_Manager;
 import usp.jakubwawak.print.PrintApplication;
 
-@PageTitle("Add printer")
-@Route(value = "addprinter")
-public class AddPrinterView extends VerticalLayout {
+/**
+ * Component for adding printer to database
+ */
+public class AddPrinter_Component {
+
+    public Dialog dialog;
+    public VerticalLayout main_layout;
 
     TextField field_printer_name,field_printer_model,field_printer_localization,field_printer_ip;
-    Button addprinter_button,cancel_button;
+    Button addprinter_button;
 
     /**
      * Constructor
      */
-    public AddPrinterView(){
-        setSpacing(false);
-        this.getElement().setAttribute("theme", Lumo.DARK);
+    public AddPrinter_Component(){
+        dialog = new Dialog();
+        main_layout = new VerticalLayout();
+
+        main_layout.setSpacing(false);
         field_printer_name = new TextField();
         field_printer_model = new TextField();
         field_printer_localization = new TextField();
         field_printer_ip = new TextField();
 
         addprinter_button = new Button("Add printer",this::addprinter);
-        cancel_button = new Button("Cancel",this::cancel);
 
-        add(new H3("Printer name"));
-        add(field_printer_name);
-        add(new H3("Printer model"));
-        add(field_printer_model);
-        add(new H3("Printer localization"));
-        add(field_printer_localization);
-        add(new H3("Printer IP"));
-        add(field_printer_ip);
-        add(addprinter_button);
-        add(cancel_button);
+        main_layout.add(new H3("Printer name"));
+        main_layout.add(field_printer_name);
+        main_layout.add(new H3("Printer model"));
+        main_layout.add(field_printer_model);
+        main_layout.add(new H3("Printer localization"));
+        main_layout.add(field_printer_localization);
+        main_layout.add(new H3("Printer IP"));
+        main_layout.add(field_printer_ip);
+        main_layout.add(addprinter_button);
 
-        setSizeFull();
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-        getStyle().set("text-align", "center");
+        main_layout.setSizeFull();
+        main_layout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        main_layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
+        main_layout.getStyle().set("text-align", "center");
 
+        dialog.add(main_layout);
     }
 
     /**
@@ -67,7 +77,7 @@ public class AddPrinterView extends VerticalLayout {
                 field_printer_localization.setEnabled(false);
                 field_printer_model.setEnabled(false);
                 addprinter_button.setEnabled(false);
-                cancel_button.setText("Return");
+                UI.getCurrent().getPage().reload();
             }
             else{
                 Notification noti = Notification.show("Database error");
@@ -78,14 +88,6 @@ public class AddPrinterView extends VerticalLayout {
         }
     }
 
-    /**
-     * Funtion for canceling/going back to main page
-     * @param event
-     */
-    private void cancel(ClickEvent event){
-        cancel_button.getUI().ifPresent(ui ->
-                ui.navigate("mainview"));
-    }
 
     /**
      * Function for checking fields content
@@ -95,5 +97,4 @@ public class AddPrinterView extends VerticalLayout {
         return !field_printer_name.getValue().equals("") && !field_printer_model.getValue().equals("") && !field_printer_localization.getValue().equals("")
                 && !field_printer_ip.getValue().equals("");
     }
-
 }
