@@ -1,14 +1,39 @@
 # PrinterApp - Dokumentacja
 
 Created: October 21, 2022 3:35 PM
-Last Edited Time: November 17, 2022 9:47 AM
+Last Edited Time: January 14, 2023 9:28 PM
 Status: Completed 🏁
 Type: Documentation
 
-> current build:`print-171122RC3`
->
+> current build:`print-160123RC5`
+> 
 
 # Changelog:
+
+`print-160123RC5`
+
+- Duża zmiana UI.
+- Dodanie strony drukarki, możliwości wyszukiwania po numerze seryjnym.
+- Łatwiejsze dodawanie elementów magazynu.
+- Dodanie możliwości generowania template maila na uzupełnienie stanów magazynowych.
+- Zmiany w komponentach typu grid.
+- Utworzenie prostego layoutu na przestrzeni całej aplikacji webowej.
+
+`print-050123RC4`
+
+- Zmiana UI.
+- Dodanie okna drukarek.
+- Ułatwienie wyszukiwania obiektów.
+- Dodanie statystyk pobieranych snapshotów.
+- Aktualizacja parsera JSON - wykryta podatność.
+
+`print-281122RC3`
+
+- Dodano przycisk odświeżania strony głownej
+- Poprawiono konfiguracje bazy danych - zwiększono czas sesji
+- Dodano nowy element do magazynu: WASTE CONTAINER.
+- Dodano strone wyświeltającą event log - dla zarządzania
+- Małe poprawy interfejsu
 
 `print-171122RC3`
 
@@ -254,15 +279,15 @@ try{
 Główne funkcje administracyjne realizowane są przez terminal. Podstawowe komendy:
 
 - job
-  - job add job_name *dodanie workera na update konkretnego elementu konfiguracji*
-  - job runp print_job_name printer_id *uruchomienie konrketnego workera dla danej drukarki po printer_id*
+    - job add job_name *dodanie workera na update konkretnego elementu konfiguracji*
+    - job runp print_job_name printer_id *uruchomienie konrketnego workera dla danej drukarki po printer_id*
 - elementadd *dodanie elementu eksploatacyjnego*
 - updatetoner *aktualizacja danych tonerów*
 - printeradd *dodanie nowej drukarki*
 - help *wyświetlenie pomocy*
 - instance *aktualizacja nazwy instancji wyświetlanej na głównej stronie*
 - info *wyświetlanie informacji dotyczących aplikacji*
-- exit *wyjście z aplikacji*
+- exit *wyjście z aplikacji i wyłączenie serwera*
 
 # UI Użytkownika.
 
@@ -271,6 +296,10 @@ Aplikacja umożliwia aktualizacje stanu tonerów przez użytkownika a także dod
 # Funkcjonalność magazynu.
 
 Aplikacja ofreruje zarządzanie zawartością magazynu. Istnieje możliwość dodawania materiałów eksploatacyjnych. Do każdej drukarki można dodawać i odejmować elementy. Aplikacja regularnie sprawdza zawartość i daje ostrzeżenia w przypadku braku elementu na drukarce.
+
+# Obsługa loga.
+
+Aplikacja umożliwia wyświetlenie wszystkich zaistniałych eventów w aplikacji. 
 
 # Deploy aplikacji na środowisku produkcyjnym.
 
