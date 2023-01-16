@@ -52,7 +52,7 @@ public class Application_Menu extends AppLayout {
         setlocation_button = new Button("Set Printer Location",VaadinIcon.LOCATION_ARROW.create(),this::setlocation);
         warehouse_button = new Button("Warehouse",VaadinIcon.BUILDING.create(),this::warehouseaction);
         Warehouse_Manager wm = new Warehouse_Manager(PrintApplication.database);
-        warehouseerror_button = new Button(wm.prepare_raport().size()+"Warehouse errors",this::warehouseerror_action);
+        warehouseerror_button = new Button(wm.prepare_raport().size()+" Warehouse errors",this::warehouseerror_action);
         oldview_button = new Button("Old Layout",VaadinIcon.BACKWARDS.create(),this::oldview_action);
         create_layout();
         this.setDrawerOpened(false);
@@ -93,7 +93,7 @@ public class Application_Menu extends AppLayout {
      */
     void create_layout(){
         create_menu();
-        HorizontalLayout navbar_layout = new HorizontalLayout(main_toggle,warehouseerror_button,new H3("printApp / " + PrintApplication.version+"/"+PrintApplication.build+"/"+PrintApplication.database.get_instance_name()));
+        HorizontalLayout navbar_layout = new HorizontalLayout(main_toggle,warehouseerror_button,new H3("printApp / " + PrintApplication.version+" /"+PrintApplication.build+"/"+PrintApplication.database.get_instance_name()));
         navbar_layout.setJustifyContentMode(FlexComponent.JustifyContentMode.EVENLY);
         navbar_layout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         navbar_layout.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER);

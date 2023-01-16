@@ -6,16 +6,24 @@
 package usp.jakubwawak.views.components;
 
 import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import org.atmosphere.interceptor.AtmosphereResourceStateRecovery;
 import usp.jakubwawak.view.Printer_View;
+
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 
 /**
  * Object for creating template component
@@ -48,6 +56,7 @@ public class CreateTemplate_Component {
 
         createtemplate_button = new Button("Create Template",this::createtemplate_action);
 
+
         template_area = new TextArea("Template");
         template_area.setWidth("400px");
         template_area.setHeight("300px");
@@ -65,6 +74,11 @@ public class CreateTemplate_Component {
         main_layout.add(createtemplate_button);
         template_area.setVisible(false);
         main_layout.add(template_area);
+
+        main_layout.setSizeFull();
+        main_layout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        main_layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
+        main_layout.getStyle().set("text-align", "center");
         dialog.add(main_layout);
     }
 
@@ -99,4 +113,5 @@ public class CreateTemplate_Component {
         template_area.setValue(template);
         template_area.setVisible(true);
     }
+
 }
