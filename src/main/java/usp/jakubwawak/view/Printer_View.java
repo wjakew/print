@@ -29,7 +29,7 @@ public class Printer_View {
 
     public String printer_serialnumber;
 
-    LocalDateTime last_update;
+    public LocalDateTime last_update;
 
     public float last_cyan_data, last_magenta_data, last_yellow_data, last_black_data;
     public int cyan_toner_status,magenta_toner_status,yellow_toner_status,black_toner_status;

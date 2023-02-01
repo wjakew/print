@@ -126,6 +126,24 @@ public class Database_Connector {
     }
 
     /**
+     * Function for getting update time from database
+     * @return Integer
+     */
+    public int get_update_time(){
+        String query = "SEKECT printapp_update_time FROM HEALTH;";
+        try{
+            PreparedStatement ppst = con.prepareStatement(query);
+            ResultSet rs = ppst.executeQuery();
+            if ( rs.next() ){
+                return rs.getInt("printapp_update_time");
+            }
+        }catch(SQLException e){
+            nl.add("GETTIME-FAILED","Failed to update update time from database ("+e.toString()+")");
+        }
+        return -1;
+    }
+
+    /**
      * Function for getting debug data from database
      * @return Integer
      */

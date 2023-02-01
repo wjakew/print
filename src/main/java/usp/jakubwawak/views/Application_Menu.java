@@ -6,6 +6,7 @@
 package usp.jakubwawak.views;
 
 import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -13,11 +14,13 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H6;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.theme.lumo.Lumo;
 import usp.jakubwawak.print.PrintApplication;
 import usp.jakubwawak.scenaio.UpdateTonerData_Scenario;
@@ -79,6 +82,7 @@ public class Application_Menu extends AppLayout {
         menu_layout.add(setlocation_button);
         menu_layout.add(warehouse_button);
         menu_layout.add(oldview_button);
+        menu_layout.add(new Text(PrintApplication.version + " / " + PrintApplication.build));
 
         menu_layout.setSizeFull();
         menu_layout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
@@ -93,7 +97,13 @@ public class Application_Menu extends AppLayout {
      */
     void create_layout(){
         create_menu();
-        HorizontalLayout navbar_layout = new HorizontalLayout(main_toggle,warehouseerror_button,new H3("printApp / " + PrintApplication.version+" /"+PrintApplication.build+"/"+PrintApplication.database.get_instance_name()));
+        StreamResource res = new StreamResource("icon.png", () -> {
+            return Application_Menu.class.getClassLoader().getResourceAsStream("images/icon.png");
+        });
+        Image logo = new Image(res,"printApp");
+        logo.setWidth("64px");
+        logo.setHeight("64px");
+        HorizontalLayout navbar_layout = new HorizontalLayout(main_toggle,logo,warehouseerror_button,new H3(PrintApplication.database.get_instance_name()));
         navbar_layout.setJustifyContentMode(FlexComponent.JustifyContentMode.EVENLY);
         navbar_layout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         navbar_layout.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER);

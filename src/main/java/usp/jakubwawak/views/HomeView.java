@@ -1,26 +1,29 @@
+/**
+ * by Jakub Wawak
+ * kubawawak@gmail.com/j.wawak@usp.pl
+ * all rights reserved
+ */
 package usp.jakubwawak.views;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.dataview.GridListDataView;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.theme.lumo.Lumo;
 import usp.jakubwawak.print.PrintApplication;
 import usp.jakubwawak.scenaio.UpdateTonerData_Scenario;
 import usp.jakubwawak.view.Printer_View;
 import usp.jakubwawak.view.TonerPrinter_View;
-import usp.jakubwawak.views.Application_Menu;
-import usp.jakubwawak.views.PrinterView;
 import usp.jakubwawak.views.components.TonerDetails_Component;
 
 import java.util.ArrayList;
@@ -31,6 +34,8 @@ public class HomeView extends VerticalLayout {
 
     Grid<Printer_View> grid;
     TonerPrinter_View tpv;
+
+    TextField search_printers;
 
     Button update_button;
 
@@ -49,6 +54,8 @@ public class HomeView extends VerticalLayout {
         grid = new Grid<>(Printer_View.class,false);
         update_time_label = new H3("Last update: "+tpv.list_view.get(0).getLastUpdate());
         update_button = new Button("", VaadinIcon.DOWNLOAD.create(), this::update);
+        search_printers = new TextField();
+        search_printers.setPlaceholder("Search...");
 
         grid.addColumn(Printer_View::getID).setHeader("AtmosferaID");
         grid.addColumn(Printer_View::getName).setHeader("Nazwa drukarki").setResizable(true);
@@ -65,10 +72,30 @@ public class HomeView extends VerticalLayout {
             if ( pv != null ){
                 show_tonerdetailsdialog(pv.printer_id);
             }});
+        GridListDataView<Printer_View> dataView = grid.setItems(view);
+
+        search_printers.addValueChangeListener(e -> dataView.refreshAll());
+
+        dataView.addFilter(printer ->
+        {
+            String searchTerm = search_printers.getValue().trim();
+
+            if ( searchTerm.isEmpty() ){
+                return true;
+            }
+
+            boolean matchesName = printer.getName().contains(searchTerm);
+
+            boolean matchesSerial = printer.getPrinter_serialnumber().contains(searchTerm);
+
+            return matchesName || matchesSerial;
+        });
+
         HorizontalLayout tonerdata_layout = new HorizontalLayout(update_time_label);
         tonerdata_layout.setDefaultVerticalComponentAlignment(Alignment.STRETCH);
         add(tonerdata_layout);
         add(update_button);
+        add(search_printers);
         add(grid);
         add(new H6("By Jakub Wawak / kubawawak@gmail.com / j.wawak@usp.pl"));
 

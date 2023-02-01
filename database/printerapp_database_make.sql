@@ -1,4 +1,4 @@
--- makefile for mysql database for klipapi
+-- makefile for mysql database for printapp web application
 -- by Jakub Wawak
 -- kubawawak@gmail.com
 -- all rights reserved
@@ -22,10 +22,13 @@ CREATE TABLE HEALTH
     printapp_status INT,
     printapp_admin_password VARCHAR(200),
     printapp_debug_flag INT,
-    printapp_instance_name VARCHAR(200)
+    printapp_instance_name VARCHAR(200),
+    printapp_message TEXT,
+    printapp_update_time INT -- time for update delay
 );
-INSERT INTO HEALTH (database_version,printapp_status,printapp_admin_password,printapp_debug_flag,printapp_instance_name)
-VALUES ("100",1,"21232f297a57a5a743894a0e4a801fc3",1,"Instance name");
+INSERT INTO HEALTH (database_version,printapp_status,printapp_admin_password,printapp_debug_flag
+,printapp_instance_name,printapp_message,printapp_update_time)
+VALUES ("101",1,"21232f297a57a5a743894a0e4a801fc3",1,"Instance name","",30);
 -- table for storing applogs
 CREATE TABLE APPLOG
 (
