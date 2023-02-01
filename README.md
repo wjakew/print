@@ -1,14 +1,20 @@
 # PrinterApp - Dokumentacja
 
 Created: October 21, 2022 3:35 PM
-Last Edited Time: January 14, 2023 9:28 PM
+Last Edited Time: February 1, 2023 10:22 AM
 Status: Completed 🏁
 Type: Documentation
 
-> current build:`print-160123RC5`
+> current build:`print-010223RC1`
 > 
 
 # Changelog:
+
+`print-010223RC1`
+
+- Dodano pole wyszukiwania na stronie głównej.
+- Wymagana aktualizacja tabeli HEALTH kodem ze skryptu z nowej wersji 101 bazy danych.
+- Dodano endpoint REST do pobierania aktualnych danych o drukarkach.
 
 `print-160123RC5`
 
