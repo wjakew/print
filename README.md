@@ -5,10 +5,17 @@ Last Edited Time: February 1, 2023 10:22 AM
 Status: Completed 🏁
 Type: Documentation
 
-> current build:`print-010223RC1`
+> current build:`print-070623RC1`
 > 
 
 # Changelog:
+
+`print-070623RC1`
+
+- Dodano auto reconnect dla bazy danych
+- Dodano auto toner updater
+- Zaktualizowano dependencje
+- Poprawki bezpieczeństwa i UI.
 
 `print-010223RC1`
 

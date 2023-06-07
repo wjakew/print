@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>usp.jakubwawak</groupId>
 	<artifactId>print</artifactId>
-	<version>1.4.1</version>
+	<version>1.4.2</version>
 	<name>print</name>
 	<description>Project for scraping Xerox printer data</description>
 
@@ -45,13 +45,13 @@
 		<dependency>
 			<groupId>org.snmp4j</groupId>
 			<artifactId>snmp4j</artifactId>
-			<version>3.7.3</version>
+			<version>3.7.7</version>
 		</dependency>
 
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.30</version>
+			<version>8.0.33</version>
 		</dependency>
 
 		<dependency>

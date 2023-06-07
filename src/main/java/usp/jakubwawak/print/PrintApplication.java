@@ -12,6 +12,7 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.spring.annotation.EnableVaadin;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,9 +21,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import usp.jakubwawak.ConsoleUI.ConsoleColors;
 import usp.jakubwawak.ConsoleUI.ConsoleMenu;
+import usp.jakubwawak.Maintanance.AutoTonerUpdater;
 import usp.jakubwawak.Maintanance.Configuration_Service;
 import usp.jakubwawak.Maintanance.PrintLog;
 import usp.jakubwawak.database.Database_Connector;
+import usp.jakubwawak.database.Database_ReconnectService;
 
 import java.io.Console;
 import java.io.IOException;
@@ -35,8 +38,8 @@ import java.io.ObjectInputFilter;
 public class PrintApplication implements AppShellConfigurator {
 	public static int debug = 0;
 
-	public static String version = "v1.4.1";
-	public static String build = "print-010223RC1";
+	public static String version = "v1.4.2";
+	public static String build = "print-070623RC0";
 
 	public static Database_Connector database;
 
@@ -92,6 +95,14 @@ public class PrintApplication implements AppShellConfigurator {
 				}
 			}
 			else{
+				//running auto database reconnect
+				Runnable connection_updater = new Database_ReconnectService();
+				Thread connection_updater_thread = new Thread(connection_updater);
+				connection_updater_thread.start();
+				//running auto database update
+				Runnable toner_updater = new AutoTonerUpdater();
+				Thread toner_updater_thread = new Thread(toner_updater);
+				toner_updater_thread.start();
 				//runing app without tests
 				SpringApplication.run(PrintApplication.class, args);
 				ConsoleMenu cm = new ConsoleMenu(database,log,build,args);
