@@ -1,71 +1,66 @@
-# PrinterApp - Dokumentacja
+# PrinterApp - Documentation
 
-Created: October 21, 2022 3:35 PM
-Last Edited Time: February 1, 2023 10:22 AM
-Status: Completed 🏁
-Type: Documentation
+Created: October 21, 2022, 3:35 PM  
+Last Edited Time: February 1, 2023, 10:22 AM  
+Status: Completed 🏁  
+Type: Documentation  
 
-> current build:`print-070623RC1`
-> 
+> Current build: `print-070623RC1`
+
+---
 
 # Changelog:
 
-`print-070623RC1`
+### `print-070623RC1`
+- Added auto reconnect for the database.
+- Added auto toner updater.
+- Updated dependencies.
+- Security and UI improvements.
 
-- Dodano auto reconnect dla bazy danych
-- Dodano auto toner updater
-- Zaktualizowano dependencje
-- Poprawki bezpieczeństwa i UI.
+### `print-010223RC1`
+- Added a search bar on the homepage.
+- Database HEALTH table update required using a script from the new version 101 database.
+- Added REST endpoint to fetch current printer data.
 
-`print-010223RC1`
+### `print-160123RC5`
+- Major UI overhaul.
+- Added printer page with the ability to search by serial number.
+- Easier inventory management.
+- Added email template generation for stock replenishment.
+- Changes to grid components.
+- Created a simple layout for the entire web application.
 
-- Dodano pole wyszukiwania na stronie głównej.
-- Wymagana aktualizacja tabeli HEALTH kodem ze skryptu z nowej wersji 101 bazy danych.
-- Dodano endpoint REST do pobierania aktualnych danych o drukarkach.
+### `print-050123RC4`
+- UI changes.
+- Added printer window.
+- Simplified object searching.
+- Added statistics for snapshots retrieved.
+- Updated JSON parser to fix a detected vulnerability.
 
-`print-160123RC5`
+### `print-281122RC3`
+- Added refresh button for the homepage.
+- Improved database configuration by increasing session timeout.
+- Added a new inventory item: WASTE CONTAINER.
+- Added a page displaying event logs for management.
+- Minor interface fixes.
 
-- Duża zmiana UI.
-- Dodanie strony drukarki, możliwości wyszukiwania po numerze seryjnym.
-- Łatwiejsze dodawanie elementów magazynu.
-- Dodanie możliwości generowania template maila na uzupełnienie stanów magazynowych.
-- Zmiany w komponentach typu grid.
-- Utworzenie prostego layoutu na przestrzeni całej aplikacji webowej.
+### `print-171122RC3`
+- BUGFIX: Automatic page reload after updating printer statuses.
+- Changed functional button layouts.
+- Added inventory management functionality.
+- Added warnings for missing toners in inventory.
+- Added PWA (Progressive Web App) functionality.
 
-`print-050123RC4`
+### `print-051122RC`
+- Updated web UI layout.
+- Added functionality to set printer locations in the database.
+- Ability to set the name of the instance on the main page.
 
-- Zmiana UI.
-- Dodanie okna drukarek.
-- Ułatwienie wyszukiwania obiektów.
-- Dodanie statystyk pobieranych snapshotów.
-- Aktualizacja parsera JSON - wykryta podatność.
+---
 
-`print-281122RC3`
+# Conducted Integration Tests
 
-- Dodano przycisk odświeżania strony głownej
-- Poprawiono konfiguracje bazy danych - zwiększono czas sesji
-- Dodano nowy element do magazynu: WASTE CONTAINER.
-- Dodano strone wyświeltającą event log - dla zarządzania
-- Małe poprawy interfejsu
-
-`print-171122RC3`
-
-- BUGFIX Automatyczny reload strony po aktualizacji statusów drukarek.
-- Zmiana layoutów przycisków funkcyjnych.
-- Dodanie funkcjonalności magazynu.
-- Dodanie ostrzerzeń o brakujących tonerach w magazynie.
-- Dodanie funkcjonalności PWA (Progressive Web Apps)
-
-`print-051122RC`
-
-- Zmiana layoutu UI na webie.
-- Dodanie funkcjonalności ustawiania lokalizacji drukarek na bazie danych.
-- Możliwość ustawienia nazwy instancji strony.
-
-# Przeprowadzone testy integracyjne.
-
-Modele drukarek na których została przetestowana aplikacja:
-
+Printer models tested with the application:
 - Phaser 3600dn
 - WC 7855
 - VersaLink C405
@@ -73,269 +68,110 @@ Modele drukarek na których została przetestowana aplikacja:
 - AltaLink C8155
 - VersaLink B600
 
-# Podstawowe założenia aplikacji PrintApp oraz problemy na które odpowiada.
+---
 
-Aplikacja została stworzona w celu dokumentowania i przechowywania stanu materiałów eksploatacyjnych drukarek Xerox dostępnych na sieci lokalnej. Dzięki aplikacji użytkownik jest w stanie pobrać jednocześnie stany wszystkich urządzeń skonfigurowanych w sieci.
+# Core Objectives and Challenges Addressed by PrintApp
 
-# Zastosowana technologia.
+The application was designed to document and track the consumable states of Xerox printers available on a local network. It enables users to simultaneously retrieve the statuses of all devices configured on the network.
 
-- MariaDB
-- Spring-Boot
-- Java 11
-- Hibernate
-- Vaadin
+---
 
-Za system przechowywania informacji pobranych od drukarek a także danych konfiguracyjnych odpowiada instancja opensourcowej bazy danych - MariaDB. Serwis dostarczający dane do drukarek korzysta z obiektu SMTP_Connector opartego o podstawowe biblioteki natywne takie jak: Java Sockets a także opensoursową bibliotekę SNMPJ4 umożliwiającą prosty parsing danych opartych na kodach OID. Frontend aplikacji jest serwowany za pomocą Tomcata i Spring-Boota. Komponenty wykorzystywane do aplikacji webowej zostały stworzone przy użyciu biblioteki Vaadin. Worker zasilający danymi bazę danych jest synchroniczny i wykorzystuje technologie Hibernate.
+# Technologies Used
 
-# Architektura rozwiązania.
+- **MariaDB**
+- **Spring-Boot**
+- **Java 11**
+- **Hibernate**
+- **Vaadin**
 
-![Untitled](PrinterApp%20-%20Dokumentacja%20a1bb5514d99f417bb8e3bb338b5919c0/Untitled.png)
+The application uses an open-source MariaDB database for storing information retrieved from printers and configuration data. The service that fetches printer data uses an SMTP_Connector object built on native Java libraries such as Java Sockets and the open-source SNMPJ4 library for simple parsing of OID-based data. The application's frontend is served via Tomcat and Spring-Boot. Web application components are built using the Vaadin library. A synchronous worker powered by Hibernate updates the database.
 
-Użytkownik obsługujący aplikacje poprzez stronę internetową ma dostęp jedynie do endpointu umożliwiającego wyświetlanie treści przygotowanej wcześniej przez objekt TonerPrinter_View. Dostęp do infrastruktury drukarek i możliwość pobierania z nich danych jest odseparowana od pozostałej funkcjonalności.
+---
 
-# Realizacja parsowania danych z drukarek.
+# Solution Architecture
 
-Drukarki udostępniają serwer SNMP dający dostęp do wszystkich aktualnych danych drukarki. Kluczem do otrzymania konkretnej infromacji są kody OID. OID to unikatowy [identyfikator](https://pl.wikipedia.org/wiki/Identyfikator) obiektu, służy do odróżnienia obiektu od innych obiektów oraz do tworzenia odwołań do tego obiektu przez system. Użytkownik posługuje się nazwą obiektu, natomiast system zamienia ją na identyfikator. Skonfigurowane kody OID w aplikacji:
+Users accessing the application through the web page can only interact with an endpoint displaying content prepared by the TonerPrinter_View object. Access to printer infrastructure and data retrieval is isolated from other functionalities.
 
-**Yellow Cartige Current**
+---
 
-```jsx
-.1.3.6.1.2.1.43.11.1.1.9.1.4
-```
+# Parsing Printer Data
 
-**Yellow Cartige Max**
+Printers provide an SNMP server that offers access to all current printer data. The key to obtaining specific information lies in OID codes. OIDs are unique identifiers that differentiate objects and allow systems to reference them. Configured OIDs in the application include:
 
-```jsx
-.1.3.6.1.2.1.43.11.1.1.8.1.4
-```
+- **Yellow Cartridge Current:** `.1.3.6.1.2.1.43.11.1.1.9.1.4`
+- **Yellow Cartridge Max:** `.1.3.6.1.2.1.43.11.1.1.8.1.4`
 
-**Cyan Cartrige Max**
+And so on for Cyan, Magenta, and Black cartridges.
 
-```jsx
-.1.3.6.1.2.1.43.11.1.1.8.1.2
-```
+The data parsing process begins with connecting to the device via the SNMP_Connector object. Once connected, responses from the SNMP server are retrieved, parsed, and exposed as strings.
 
-Cyan Cartige Current
+---
 
-```jsx
-.1.3.6.1.2.1.43.11.1.1.9.1.2
-```
+# Toner Data Updates
 
-Magenta Cartige Max
+Toner updates are managed using the `UpdateTonerData_Scenario` object. This object calculates toner levels by comparing current and maximum values. Example calculation:
 
-```jsx
-.1.3.6.1.2.1.43.11.1.1.8.1.3
-```
-
-Magenta Cartige Current
-
-```jsx
-.1.3.6.1.2.1.43.11.1.1.9.1.3
-```
-
-Black Cartige Max
-
-```jsx
-.1.3.6.1.2.1.43.11.1.1.8.1.1
-```
-
-Black Cartrige Current
-
-```jsx
-.1.3.6.1.2.1.43.11.1.1.9.1.1
-```
-
-Kody te zostały pozyskane z 3 źródeł - jednym z podstawowych była dostępna konfiguracja wtyczki Zabbix. Parsowanie danych z drukarki rozpoczyna się od połączenia z urządzeniem za pomocą obiektu SNMP_Connector:
-
-```jsx
-public SNMP_Connector(String ip_address){
-        this.ip_address = ip_address;
-        server_address = "udp:"+this.ip_address+"/161";
+```java
+float calculate(float maxResult, float minResult) {
+    if (maxResult != -69 && minResult != -69) {
+        return (minResult / maxResult) * 100;
     }
-```
-
-Po podłączeniu do drukarki za pomocą metody connect() zostaje pobierana cała zawartość odpowiedzi na request do serwera SNMP.
-
-```jsx
-public void connect() throws IOException {
-        PrintApplication.database.nl.add("SNMPCONNECTOR","Connector object starting for "+ip_address);
-        client = new SNMP_Manager(server_address);
-        client.start();
-    }
-```
-
-Dane pobrane przez obiekt są przechowywane w obiekcie SNMP_Manager:
-
-```jsx
-/**
-     * Constructor
-     * @param address
-     */
-    public SNMP_Manager(String address){
-        ip_address = address;
-    }
-
-    /**
-     Start the Snmp session. If you forget the listen() method you will not
-     * get any answers because the communication is asynchronous
-     * and the listen() method listens for answers.
-     @throws IOException
-     **/
-    public void start() throws IOException {
-        TransportMapping transport = new DefaultUdpTransportMapping();
-        snmp = new Snmp (transport);
-        // Do not forget this line!
-        transport.listen();
-    }
-```
-
-A następnie są parsowane i udostępniane jako string:
-
-```jsx
-/**
-     * Function for getting parameter result from snmp connection
-     * @param snmp_oid
-     * @return String
-     */
-    public String get_parameter(String snmp_oid){
-        try{
-            PrintApplication.database.nl.add("SNMPCONNECTOR","Loading parameter "
-                    +snmp_oid+"="+client.getAsString(new OID(snmp_oid)));
-            return client.getAsString(new OID(snmp_oid));
-        }
-        catch(Exception e){
-            return null;
-        }
-    }
-```
-
-W przypadku danych dotyczących tonerów drukarki przechowują jedynie wartości MAX oraz CURRENT. Aby wyliczyć konkretną wartość należy wykorzystać przeliczenie na procent.
-
-# Aktualizacja danych tonerów.
-
-Aktualizacja tonerów jest realizowana poprzez obiekt UpdateTonerData_Scenario:
-
-```jsx
-/**
- * Object for creating scenario for Updating Toner data
- */
-public class UpdateTonerData_Scenario {
-
-    int printer_jobMAX_id;
-    int printer_jobMIN_id;
-
-    ArrayList<Integer> printer_ids;
-
-    Database_Connector database;
-    Database_Manager dm;
-
-    /**
-     * Constructor
-     */
-    public UpdateTonerData_Scenario(){
-        this.database = PrintApplication.database;
-        printer_jobMAX_id = 1;
-        printer_jobMIN_id = 2;
-        dm = new Database_Manager(database);
-        printer_ids = dm.get_printer_ids();
-        database.nl.add("SCENARIO","Running update toner data scenario");
-    }
+    return -69f;
 }
 ```
 
-W trakcie aktualizacji jest wykorzystywany obiekt typu Job pozwalający na aktualizacje danych:
+---
 
-```jsx
-PrinterJob_Engine pje_max = new PrinterJob_Engine(printer_id,printer_jobMAX_id);
-pje_max.run();
-PrinterJob_Engine pje_min = new PrinterJob_Engine(printer_id,printer_jobMIN_id);
-pje_min.run();
-ArrayList<Float> max_result = pje_max.get_float_result();
-ArrayList<Float> min_result = pje_min.get_float_result();
-```
+# Administrator UI
 
-Przykładowe wyliczenie stanu tonera:
+Administrative functions are performed via a terminal with basic commands such as:
+- `job` – manage workers for specific configuration updates.
+- `updatetoner` – update toner data.
+- `printeradd` – add a new printer.
 
-```jsx
-String cyan_data = "";
-try{
-    cyan_value = calculate(max_result.get(0),min_result.get(0));
-    if ( cyan_value != -69){
-        cyan_data = Float.toString(cyan_value);
-    }
-    else{
-        cyan_data = "NaN";
-    }
-}catch(NullPointerException e){
-    cyan_data = "NaN";
-}
+---
 
-/**
-   * Function for calculating toner %
-   * @param max_result
-   * @param min_result
-   * @return Integer
-   */
-  float calculate(float max_result,float min_result){
-      if ( max_result != -69 && min_result != -69){
-          float result = min_result/max_result*100;
-          return result;
-      }
-      else{
-          return -69f;
-      }
-  }
-```
+# User UI
 
-# UI Administratora.
+The application allows users to update toner statuses and add new printers. Location data for devices can also be added from the user interface.
 
-Główne funkcje administracyjne realizowane są przez terminal. Podstawowe komendy:
+---
 
-- job
-    - job add job_name *dodanie workera na update konkretnego elementu konfiguracji*
-    - job runp print_job_name printer_id *uruchomienie konrketnego workera dla danej drukarki po printer_id*
-- elementadd *dodanie elementu eksploatacyjnego*
-- updatetoner *aktualizacja danych tonerów*
-- printeradd *dodanie nowej drukarki*
-- help *wyświetlenie pomocy*
-- instance *aktualizacja nazwy instancji wyświetlanej na głównej stronie*
-- info *wyświetlanie informacji dotyczących aplikacji*
-- exit *wyjście z aplikacji i wyłączenie serwera*
+# Inventory Management
 
-# UI Użytkownika.
+The app offers inventory management, enabling the addition and removal of consumables for each printer. It also issues warnings when supplies are low.
 
-Aplikacja umożliwia aktualizacje stanu tonerów przez użytkownika a także dodanie nowej drukarki. Z poziomu strony można dodać dane lokalizacyjne każdego urządzenia które następnie ustawią się na widoku głównym.
+---
 
-# Funkcjonalność magazynu.
+# Event Logs
 
-Aplikacja ofreruje zarządzanie zawartością magazynu. Istnieje możliwość dodawania materiałów eksploatacyjnych. Do każdej drukarki można dodawać i odejmować elementy. Aplikacja regularnie sprawdza zawartość i daje ostrzeżenia w przypadku braku elementu na drukarce.
+The application displays all recorded events for auditing and monitoring purposes.
 
-# Obsługa loga.
+---
 
-Aplikacja umożliwia wyświetlenie wszystkich zaistniałych eventów w aplikacji. 
+# Deployment to Production Environment
 
-# Deploy aplikacji na środowisku produkcyjnym.
+### System Requirements:
+- MariaDB database
+- Java Runtime Environment (JRE) 11
 
-### Wymagania systemowe:
+### Deployment Steps:
+1. Install MariaDB.
+2. Install Java JRE11.
+3. Execute `printapp_database_make.sql` on the database.
+4. Execute `server_configuration.sql` on the database.
+5. Extract `print.zip` to the deployment location.
+6. Run the application:
 
-- baza danych MariaDB
-- Java Runtime w wersji 11
-
-## Instrukcja deployu
-
-1. Instalacja środowiska MariaDB.
-2. Instalacja Java JRE11.
-3. Uruchomienie skryptu na bazie danych **printapp_database_make.sql**
-4. Uruchomienie skryptu na bazie danych **server_configuration.sql**
-5. Wypakowanie print.zip do lokalizacji uruchomieniowej
-6. Uruchomienie aplikacji
-
-```jsx
+```bash
 java -jar printer-1.0.0.jar
 ```
 
-1. Wykonanie komendy *updatetoner* - pierwsza aktualizacja stanu tonerów.
+7. Perform the initial toner update using the `updatetoner` command.
 
-Administrator może wykonać również uruchomienie aplikacji jako serwis używając pliku .service oraz .mount. Aplikacja obsługuje uruchomienie w zewnętrznym shellu i przekierowanie outputu na plik.
+The administrator can also configure the application as a service.
 
-by Jakub Wawak 2022 / kubawawak@gmail.com / j.wawak@usp.pl
+---
+
+*By Jakub Wawak (2022)*  
+kubawawak@gmail.com / j.wawak@usp.pl
